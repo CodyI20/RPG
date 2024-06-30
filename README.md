@@ -5,7 +5,7 @@ This repo will contain an RPG game demo made in Unity
 
 
 
-# ** Credits **
+# **Credits**
 This section will include links to all the assets used that have not been made by me and/or to the tutorials followed in order to create them.
 
 Tutorial: https://www.youtube.com/watch?v=rB4YMQmO8Mw&t=1s - Sci-fi Barrier
