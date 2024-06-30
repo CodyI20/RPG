@@ -10,7 +10,13 @@ This section will include links to all the assets used that have not been made b
 
 Tutorial: https://www.youtube.com/watch?v=rB4YMQmO8Mw&t=1s - Sci-fi Barrier
 
+![Barrier screenshot](https://github.com/CodyI20/RPG/assets/125357154/5f08b29b-92dc-44f8-843d-b76eb3aef415)
+
+
 Tutorial: https://www.youtube.com/watch?v=IZAzckJaSO8&t=29s - Sci-fi Shield
+
+![Shield screenshot](https://github.com/CodyI20/RPG/assets/125357154/5279d7ce-b410-4592-aab7-40b0dca5cd62)
+
 
 Textures for the environment:
 https://ambientcg.com/
