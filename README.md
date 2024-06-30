@@ -19,6 +19,9 @@ Tutorial: https://www.youtube.com/watch?v=IZAzckJaSO8&t=29s - Sci-fi Shield
 
 Tutorial: - https://www.youtube.com/watch?v=vMd5GnP5c8o&list=PLGHeZfzv8qXf0eNb-6B4yC1EJORwqr2Zf&index=3 - Summon creatures VFX
 
+![SpiritWolf](https://github.com/CodyI20/RPG/assets/125357154/c70d7d7f-9c16-48c5-b741-41b1be0c852a)
+
+
 3D model used: "Wolf with Animations" (https://skfb.ly/GnQ6) by 3DHaupt is licensed under CC Attribution-NonCommercial-ShareAlike (http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ![Wolf](https://github.com/CodyI20/RPG/assets/125357154/0b9972b4-b1ea-4a35-b0e0-f0aeb4b746d1)
