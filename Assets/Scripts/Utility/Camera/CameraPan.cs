@@ -38,10 +38,12 @@ public class CameraPan : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(0))
-            CameraRotateLogic();
-        else if (Input.GetMouseButton(1))
+        if(Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
+        {
             PlayerAndCameraRotateLogic();
+        }
+        else if (Input.GetMouseButton(0))
+            CameraRotateLogic();
         CameraZoom();
     }
 
