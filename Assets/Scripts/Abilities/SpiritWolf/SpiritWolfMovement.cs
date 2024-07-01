@@ -20,12 +20,12 @@ public class SpiritWolfMovement : MonoBehaviour
     {
         // Perform raycast to determine ground height
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, _raycastDistance))
+        if (Physics.Raycast(_raycastPoint.position, Vector3.down, out hit, _raycastDistance))
             transform.position = new Vector3(transform.position.x, hit.point.y - _raycastPoint.localPosition.y, transform.position.z);
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         _rb.MovePosition(transform.position + transform.forward * _speed * Time.fixedDeltaTime);
-        Debug.DrawRay(transform.position, Vector3.down * _raycastDistance, Color.red);
+        Debug.DrawRay(_raycastPoint.position, Vector3.down * _raycastDistance, Color.red);
     }
 
 }
