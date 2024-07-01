@@ -14,6 +14,8 @@ public class PlayerAnimatorManager : MonoBehaviour
     private const string FALLING = "Falling";
     private const string JUMPING = "Jumping";
     private const string LANDED = "Landed";
+    private const string DYING = "Dying";
+    private const string MOVING_BACK = "MovingBack";
     private const string IDLE = "isIdle";
 
     private void Awake()
@@ -50,24 +52,32 @@ public class PlayerAnimatorManager : MonoBehaviour
     #region EventSubscriptions
     private void OnEnable()
     {
-        playerMovement.OnPlayerMoving += () => SetAnimationState(RUNNING, true);
+        playerMovement.OnPlayerMovingFront += () => SetAnimationState(RUNNING, true);
         playerMovement.OnPlayerStoppedMoving += () => SetAnimationState(RUNNING, false);
         playerMovement.OnPlayerFalling += () => SetAnimationState(FALLING, true);
         playerMovement.OnPlayerLanded += () => SetAnimationState(FALLING, false);
         playerMovement.OnPlayerJumped += () => SetAnimationState(JUMPING,true);
         playerMovement.OnPlayerFalling += () => SetAnimationState(JUMPING, false);
         playerMovement.OnPlayerLanded += () => SetAnimationTrigger(LANDED);
+        playerMovement.OnPlayerMovingFront += () => ResetAnimationTrigger(LANDED);
+        playerMovement.OnPlayerMovingBack += () => SetAnimationState(MOVING_BACK, true);
+        playerMovement.OnPlayerStoppedMoving += () => SetAnimationState(MOVING_BACK, false);
+        PlayerStats.Instance.OnPlayerDeath += () => SetAnimationTrigger(DYING);
     }
 
     private void OnDisable()
     {
-        playerMovement.OnPlayerMoving -= () => SetAnimationState(RUNNING, true);
+        playerMovement.OnPlayerMovingFront -= () => SetAnimationState(RUNNING, true);
         playerMovement.OnPlayerStoppedMoving -= () => SetAnimationState(RUNNING, false);
         playerMovement.OnPlayerFalling -= () => SetAnimationState(FALLING, true);
         playerMovement.OnPlayerLanded -= () => SetAnimationState(FALLING, false);
         playerMovement.OnPlayerJumped -= () => SetAnimationState(JUMPING, true);
         playerMovement.OnPlayerFalling -= () => SetAnimationState(JUMPING, false);
         playerMovement.OnPlayerLanded -= () => SetAnimationTrigger(LANDED);
+        playerMovement.OnPlayerMovingFront -= () => ResetAnimationTrigger(LANDED);
+        playerMovement.OnPlayerMovingBack -= () => SetAnimationState(MOVING_BACK, true);
+        playerMovement.OnPlayerStoppedMoving -= () => SetAnimationState(MOVING_BACK, false);
+        PlayerStats.Instance.OnPlayerDeath += () => SetAnimationTrigger(DYING);
     }
     #endregion
 
@@ -90,6 +100,11 @@ public class PlayerAnimatorManager : MonoBehaviour
         // Assuming trigger animations are one-shot and should be removed immediately after setting
         //activeAnimations.Add(triggerName);
         //StartCoroutine(ClearTriggerAnimation(triggerName)); // Slight delay to allow animation to register
+    }
+
+    private void ResetAnimationTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
     }
 
     //IEnumerator ClearTriggerAnimation(string triggerName)

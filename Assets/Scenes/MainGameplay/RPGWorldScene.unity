@@ -1513,6 +1513,7 @@ GameObject:
   - component: {fileID: 1036389349}
   - component: {fileID: 1036389350}
   - component: {fileID: 1036389351}
+  - component: {fileID: 1036389352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1584,6 +1585,8 @@ MonoBehaviour:
   scrollSpeed: 10
   minFollowDistance: 2
   maxFollowDistance: 20
+  repositionCameraToBackWhileWalking: 1
+  smoothRotationFactor: 0.5
 --- !u!114 &1036389349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1603,7 +1606,9 @@ MonoBehaviour:
   moveRightKey: 100
   jumpKey: 32
   movementSpeed: 5
+  backwardsMovementSpeedPercentage: 0.35
   jumpHeight: 1.2
+  rotationSpeed: 7
 --- !u!114 &1036389350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1631,6 +1636,19 @@ MonoBehaviour:
   _spiritWolfPrefab: {fileID: 2581955631874928125, guid: 3dc0cf4322ceb00439f33a646b4f4a84, type: 3}
   _spawnKey: 116
   _spawnRate: 1
+--- !u!114 &1036389352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036389342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb5d036532d2a1419fe9c170647ba78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &1144537526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3370,11 +3388,11 @@ MonoBehaviour:
   CameraDistance: 5.26
   CameraCollisionFilter:
     serializedVersion: 2
-    m_Bits: 0
-  IgnoreTag: 
-  CameraRadius: 0.329
-  DampingIntoCollision: 0
-  DampingFromCollision: 2
+    m_Bits: 1
+  IgnoreTag: Player
+  CameraRadius: 0.25
+  DampingIntoCollision: 1.5
+  DampingFromCollision: 1.5
 --- !u!114 &1803782554
 MonoBehaviour:
   m_ObjectHideFlags: 3

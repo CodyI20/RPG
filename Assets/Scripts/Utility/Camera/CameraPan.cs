@@ -1,5 +1,6 @@
-using UnityEngine;
 using Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraPan : MonoBehaviour
 {
@@ -21,8 +22,25 @@ public class CameraPan : MonoBehaviour
     [SerializeField] private float minFollowDistance = 2f;
     [SerializeField] private float maxFollowDistance = 20f;
 
+    [Space(10)]
+    [Header("Camera Settings")]
+    [SerializeField] private bool repositionCameraToBackWhileWalking = true;
+    [SerializeField, Range(0, 1)] private float smoothRotationFactor = 0.2f;
+
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
+
+    private Vector2 currentMousePosition;
+
+    private void OnEnable()
+    {
+        PlayerMovement.OnPlayerAttemptingMove += LerpCameraBack;
+    }
+
+    private void OnDisable()
+    {
+        PlayerMovement.OnPlayerAttemptingMove -= LerpCameraBack;
+    }
 
     private void Awake()
     {
@@ -38,13 +56,41 @@ public class CameraPan : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
         {
+            HideCursor();
             PlayerAndCameraRotateLogic();
         }
         else if (Input.GetMouseButton(0))
+        {
+            HideCursor();
             CameraRotateLogic();
+        }
+        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+        {
+            ShowCursor();
+        }
         CameraZoom();
+    }
+
+    private void HideCursor()
+    {
+        currentMousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void ShowCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Mouse.current.WarpCursorPosition(currentMousePosition);
+        Cursor.visible = true;
+    }
+
+    private void LerpCameraBack(GameObject gameObject)
+    {
+        if (gameObject == playerTarget.gameObject && repositionCameraToBackWhileWalking)
+            SmoothCameraRotation();
     }
 
     private void CalculateAndApplyMouseInput()
@@ -67,6 +113,11 @@ public class CameraPan : MonoBehaviour
         CalculateAndApplyMouseInput();
         ApplyPlayerRotation(cinemachineTargetYaw);
         ApplyCameraRotation(cinemachineTargetPitch, cinemachineTargetYaw);
+    }
+
+    private void SmoothCameraRotation()
+    {
+        panPoint.rotation = Quaternion.Lerp(panPoint.rotation, playerTarget.rotation, smoothRotationFactor * Time.deltaTime);
     }
 
     private void ApplyCameraRotation(float pitch, float yaw)

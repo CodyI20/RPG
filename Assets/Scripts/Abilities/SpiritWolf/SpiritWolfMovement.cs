@@ -8,6 +8,7 @@ public class SpiritWolfMovement : MonoBehaviour
     [SerializeField] private float _raycastDistance = 1f;
 
     [SerializeField] private Transform _raycastPoint;
+    [SerializeField] private Transform _groundPoint;
 
     Rigidbody _rb;
 
@@ -21,7 +22,7 @@ public class SpiritWolfMovement : MonoBehaviour
         // Perform raycast to determine ground height
         RaycastHit hit;
         if (Physics.Raycast(_raycastPoint.position, Vector3.down, out hit, _raycastDistance))
-            transform.position = new Vector3(transform.position.x, hit.point.y - _raycastPoint.localPosition.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y - _groundPoint.localPosition.y*2, transform.position.z);
         else
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         _rb.MovePosition(transform.position + transform.forward * _speed * Time.fixedDeltaTime);
