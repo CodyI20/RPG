@@ -25,7 +25,7 @@ public class CameraPan : MonoBehaviour
     [Space(10)]
     [Header("Camera Settings")]
     [SerializeField] private bool repositionCameraToBackWhileWalking = true;
-    [SerializeField, Range(0, 1)] private float smoothRotationFactor = 0.2f;
+    [SerializeField, Range(0, 20)] private float smoothRotationFactor = 0.2f;
 
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
@@ -89,7 +89,7 @@ public class CameraPan : MonoBehaviour
 
     private void LerpCameraBack(GameObject gameObject)
     {
-        if (gameObject == playerTarget.gameObject && repositionCameraToBackWhileWalking)
+        if (gameObject == playerTarget.gameObject && repositionCameraToBackWhileWalking && Cursor.visible == true)
             SmoothCameraRotation();
     }
 
@@ -117,7 +117,9 @@ public class CameraPan : MonoBehaviour
 
     private void SmoothCameraRotation()
     {
-        panPoint.rotation = Quaternion.Lerp(panPoint.rotation, playerTarget.rotation, smoothRotationFactor * Time.deltaTime);
+        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.z,playerTarget.eulerAngles.z,smoothRotationFactor * Time.deltaTime));
+        cinemachineTargetYaw = panPoint.eulerAngles.y;
+        cinemachineTargetPitch = Mathf.Clamp(panPoint.eulerAngles.x, BottomClamp, TopClamp);
     }
 
     private void ApplyCameraRotation(float pitch, float yaw)
