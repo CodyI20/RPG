@@ -52,6 +52,7 @@ public class CameraPan : MonoBehaviour
         //Setting the initial values of the camera so that it doesn't start at (0,0), therefore causing a jump
         cinemachineTargetYaw = panPoint.eulerAngles.y;
         cinemachineTargetPitch = panPoint.eulerAngles.x;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void LateUpdate()
@@ -75,15 +76,11 @@ public class CameraPan : MonoBehaviour
 
     private void HideCursor()
     {
-        currentMousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void ShowCursor()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        Mouse.current.WarpCursorPosition(currentMousePosition);
         Cursor.visible = true;
     }
 

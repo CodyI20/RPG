@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -25,8 +26,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode moveBackwardKey = KeyCode.S; //Default value is "S"
     [SerializeField] private KeyCode moveLeftKey = KeyCode.A; //Default value is "A"
     [SerializeField] private KeyCode moveRightKey = KeyCode.D; //Default value is "D"
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space; //Default value is "Space"
 
-    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+    [Header("Mouse Settings")]
+    [SerializeField] private MouseButton freeRunButton = MouseButton.Forward;
 
     [Space(10)]
     [Header("Player settings")]
@@ -43,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private bool playerIsDead = false;
     private bool isFreeRunning = false;
 
+    private bool firstFrame;
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -74,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = characterController.isGrounded;
         isFreeRunning = false;
+        firstFrame = true;
     }
 
     private void Update()
@@ -102,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!playerIsDead)
         {
-            if (isGrounded && !groundedLastFrame)
+            if (!firstFrame && isGrounded && !groundedLastFrame)
             {
                 Debug.Log("Player Landed");
                 OnPlayerLanded?.Invoke();
@@ -112,12 +117,12 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = -2f;
             }
 
-            if (Input.GetMouseButtonDown(4) && !isFreeRunning)
+            if (Input.GetMouseButtonDown((int)freeRunButton) && !isFreeRunning)
             {
                 Debug.Log("Free Running Enabled");
                 isFreeRunning = true;
             }
-            else if (Input.GetMouseButtonDown(4) || IsPressingMovementKeys() && isFreeRunning)
+            else if (Input.GetMouseButtonDown((int)freeRunButton) || IsPressingMovementKeys() && isFreeRunning)
             {
                 isFreeRunning = false;
             }
@@ -181,6 +186,7 @@ public class PlayerMovement : MonoBehaviour
                         horizontalVelocity = directionVector * movementSpeed; // Store the horizontal velocity
                         RotateWithVelocityFront(directionVector);
                     }
+                    OnPlayerAttemptingMove?.Invoke(this.gameObject);
                 }
                 else
                 {
@@ -222,6 +228,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         characterController.Move(finalVelocity * Time.deltaTime);
+        if(firstFrame)
+        {
+            firstFrame = false;
+        }
     }
 
     private void RotateWithVelocityFront(Vector3 velocity)

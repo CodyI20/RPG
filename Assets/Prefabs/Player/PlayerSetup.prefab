@@ -597,7 +597,7 @@ MonoBehaviour:
   minFollowDistance: 2
   maxFollowDistance: 20
   repositionCameraToBackWhileWalking: 1
-  smoothRotationFactor: 3
+  smoothRotationFactor: 1
 --- !u!114 &4865616589180018929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +616,7 @@ MonoBehaviour:
   moveLeftKey: 97
   moveRightKey: 100
   jumpKey: 32
+  freeRunButton: 3
   movementSpeed: 5
   backwardsMovementSpeedPercentage: 1
   jumpHeight: 1.2
