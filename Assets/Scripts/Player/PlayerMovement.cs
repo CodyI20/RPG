@@ -5,8 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public event System.Action OnPlayerMoved;
+    //Movement Events
+    public event System.Action OnPlayerMoving;
     public event System.Action OnPlayerStoppedMoving;
+
+    //Jump Events
+    public event System.Action OnPlayerJumped;
+    public event System.Action OnPlayerLanded;
+
+
     CharacterController characterController;
 
     [Header("Refernces")]
@@ -24,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     [Space(10)]
     [Header("Player settings")]
     [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float jumpHeight = 2f;
+    private float gravity = 0f;
+
+    private Vector3 velocity = Vector3.zero;
+    private bool isGrounded = true;
 
     private void Awake()
     {
@@ -35,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
         CustomInputManager.SetKey("MoveLeft", moveLeftKey);
         CustomInputManager.SetKey("MoveRight", moveRightKey);
         CustomInputManager.SetKey("Jump", jumpKey);
+
+        gravity = Physics.gravity.y;
+#if UNITY_EDITOR
+        Debug.Log("Gravity: " + gravity);
+#endif
     }
 
     private bool IsPressingMovementKeys()
@@ -42,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
         return CustomInputManager.GetKey("MoveForward") ||
                CustomInputManager.GetKey("MoveBackward") ||
                CustomInputManager.GetKey("MoveLeft") ||
-               CustomInputManager.GetKey("MoveRight");
+               CustomInputManager.GetKey("MoveRight") ||
+               CustomInputManager.GetKeyDown("Jump");
     }
 
     private void Update()
@@ -52,10 +70,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckMovePlayer()
     {
+        bool groundedLastFrame = isGrounded;
+        isGrounded = characterController.isGrounded;
+        if(isGrounded && !groundedLastFrame)
+        {
+            OnPlayerLanded?.Invoke();
+        }
         if(!IsPressingMovementKeys())
         {
             OnPlayerStoppedMoving?.Invoke();
             return;
+        }
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
         }
         float horizontal = 0f;
         float vertical = 0f;
@@ -78,17 +106,29 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-        //Swap to local space
-        direction = transform.TransformDirection(direction);
-        //Apply to velocity
-        Vector3 velocity = direction * movementSpeed;
+        direction = transform.TransformDirection(direction); // Convert to local space
 
-        RotateWithVelocity(velocity);
+        if (direction.magnitude >= 0.1f)
+        {
+            OnPlayerMoving?.Invoke();
+            RotateWithVelocity(direction);
+            characterController.Move(direction * movementSpeed * Time.deltaTime);
+        }
+        else
+        {
+            OnPlayerStoppedMoving?.Invoke();
+        }
 
+        // Handle Jump
+        if (isGrounded && CustomInputManager.GetKeyDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            OnPlayerJumped?.Invoke();
+        }
+
+        // Apply gravity
+        velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
-
-        //If the player moved, invoke the event
-        OnPlayerMoved?.Invoke();
     }
 
     private void RotateWithVelocity(Vector3 velocity)

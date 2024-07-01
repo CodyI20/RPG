@@ -1649,6 +1649,7 @@ MonoBehaviour:
   moveRightKey: 100
   jumpKey: 32
   movementSpeed: 5
+  jumpHeight: 10
 --- !u!114 &1036389350
 MonoBehaviour:
   m_ObjectHideFlags: 0
