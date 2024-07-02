@@ -88,15 +88,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsPressingMovementKeys()
     {
-        if (CustomInputManager.GetKey("MoveForward") ||
+        return CustomInputManager.GetKey("MoveForward") ||
             CustomInputManager.GetKey("MoveBackward") ||
             CustomInputManager.GetKey("MoveLeft") ||
-            CustomInputManager.GetKey("MoveRight"))
-        {
-            OnPlayerAttemptingMove?.Invoke(this.gameObject);
-            return true;
-        }
-        return false;
+            CustomInputManager.GetKey("MoveRight");
     }
 
     private void CheckMovePlayer()
@@ -114,10 +109,10 @@ public class PlayerMovement : MonoBehaviour
 #endif
                 OnPlayerLanded?.Invoke();
             }
-            if (isGrounded && velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
+            //if (isGrounded && velocity.y < 0)
+            //{
+            //    velocity.y = -2f;
+            //}
 
             if (Input.GetMouseButtonDown((int)freeRunButton) && !isFreeRunning)
             {
@@ -194,6 +189,7 @@ public class PlayerMovement : MonoBehaviour
                         horizontalVelocity = directionVector * movementSpeed; // Store the horizontal velocity
                         RotateWithVelocityFront(directionVector);
                     }
+                    OnPlayerAttemptingMove?.Invoke(this.gameObject);
                 }
                 else
                 {
@@ -215,6 +211,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 horizontalVelocity = Vector3.zero;
             }
+            if(IsPressingMovementKeys())
+            {
+                OnPlayerAttemptingMove?.Invoke(this.gameObject);
+            }
         }
 
 
@@ -231,10 +231,12 @@ public class PlayerMovement : MonoBehaviour
         }
         // Combine horizontal and vertical velocity
         Vector3 finalVelocity = horizontalVelocity + new Vector3(0, velocity.y, 0);
-        if(finalVelocity.magnitude > 0.1f)
+
+        if(horizontalVelocity.magnitude > 0.05f)
         {
             OnPlayerAttemptingMove?.Invoke(this.gameObject);
         }
+
         if (!isGrounded && velocity.y < 0)
         {
             OnPlayerFalling?.Invoke();
