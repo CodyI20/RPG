@@ -3651,6 +3651,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSetup
       objectReference: {fileID: 0}
+    - target: {fileID: 4833756106059633296, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+      propertyPath: cameraScrollSmoothness
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6394663790402548539, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       propertyPath: m_LocalPosition.x
       value: 76.69562

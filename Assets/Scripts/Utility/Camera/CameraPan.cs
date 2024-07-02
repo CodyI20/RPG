@@ -1,6 +1,5 @@
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CameraPan : MonoBehaviour
 {
@@ -21,6 +20,7 @@ public class CameraPan : MonoBehaviour
     [SerializeField] private float scrollSpeed = 10f;
     [SerializeField] private float minFollowDistance = 2f;
     [SerializeField] private float maxFollowDistance = 20f;
+    [SerializeField, Range(0, 30)] private float cameraScrollSmoothness = 5f;
 
     [Space(10)]
     [Header("Camera Settings")]
@@ -30,16 +30,18 @@ public class CameraPan : MonoBehaviour
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
 
-    private Vector2 currentMousePosition;
+    private bool isPlayerDead = false;
 
     private void OnEnable()
     {
         PlayerMovement.OnPlayerAttemptingMove += LerpCameraBack;
+        PlayerStats.Instance.OnPlayerDeath += () => isPlayerDead = true;
     }
 
     private void OnDisable()
     {
         PlayerMovement.OnPlayerAttemptingMove -= LerpCameraBack;
+        PlayerStats.Instance.OnPlayerDeath -= () => isPlayerDead = true;
     }
 
     private void Awake()
@@ -60,7 +62,14 @@ public class CameraPan : MonoBehaviour
         if (Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
         {
             HideCursor();
-            PlayerAndCameraRotateLogic();
+            if (!isPlayerDead)
+            {
+                PlayerAndCameraRotateLogic();
+            }
+            else
+            {
+                CameraRotateLogic();
+            }
         }
         else if (Input.GetMouseButton(0))
         {
@@ -86,7 +95,7 @@ public class CameraPan : MonoBehaviour
 
     private void LerpCameraBack(GameObject gameObject)
     {
-        if (gameObject == playerTarget.gameObject && repositionCameraToBackWhileWalking && Cursor.visible == true)
+        if (gameObject == playerTarget.gameObject && repositionCameraToBackWhileWalking && Cursor.visible == true) //If it's not currently overriden by the player's actions
             SmoothCameraRotation();
     }
 
@@ -114,7 +123,7 @@ public class CameraPan : MonoBehaviour
 
     private void SmoothCameraRotation()
     {
-        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.z,playerTarget.eulerAngles.z,smoothRotationFactor * Time.deltaTime));
+        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.z, playerTarget.eulerAngles.z, smoothRotationFactor * Time.deltaTime));
         cinemachineTargetYaw = panPoint.eulerAngles.y;
         cinemachineTargetPitch = Mathf.Clamp(panPoint.eulerAngles.x, BottomClamp, TopClamp);
     }
@@ -138,7 +147,8 @@ public class CameraPan : MonoBehaviour
     private void CameraZoom()
     {
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        cinemachine3rdPersonFollow.CameraDistance = Mathf.Clamp(cinemachine3rdPersonFollow.CameraDistance - scrollInput * scrollSpeed, minFollowDistance, maxFollowDistance);
+        float intermediateValue = Mathf.Lerp(cinemachine3rdPersonFollow.CameraDistance, cinemachine3rdPersonFollow.CameraDistance - scrollInput * scrollSpeed, Time.deltaTime * cameraScrollSmoothness);
+        cinemachine3rdPersonFollow.CameraDistance = Mathf.Clamp(intermediateValue, minFollowDistance, maxFollowDistance);
     }
 
     private float GetMouseInput(string axis)
