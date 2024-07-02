@@ -593,10 +593,10 @@ MonoBehaviour:
   panSpeed: 200
   TopClamp: 70
   BottomClamp: -40
-  scrollSpeed: 10
+  scrollSpeed: 15
   minFollowDistance: 2
   maxFollowDistance: 20
-  cameraScrollSmoothness: 25
+  cameraScrollSmoothness: 20
   repositionCameraToBackWhileWalking: 1
   smoothRotationFactor: 1
 --- !u!114 &4865616589180018929
@@ -619,7 +619,7 @@ MonoBehaviour:
   jumpKey: 32
   freeRunButton: 3
   movementSpeed: 5
-  backwardsMovementSpeedPercentage: 1
+  backwardsMovementSpeedPercentage: 0.4
   jumpHeight: 1.2
   rotationSpeed: 7
 --- !u!114 &6899044524923786948
@@ -688,7 +688,7 @@ Transform:
   m_GameObject: {fileID: 2131023088710442210}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.21299744}
+  m_LocalPosition: {x: 0, y: 0.31999993, z: 0.21299744}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1330,7 +1330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damping: {x: 0, y: 0, z: 0}
   ShoulderOffset: {x: 0.71, y: 2.12, z: 0}
-  VerticalArmLength: -0.72
+  VerticalArmLength: -0.4
   CameraSide: 0.5
   CameraDistance: 5.26
   CameraCollisionFilter:

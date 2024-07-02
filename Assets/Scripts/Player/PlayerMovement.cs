@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode jumpKey = KeyCode.Space; //Default value is "Space"
 
     [Header("Mouse Settings")]
-    [SerializeField] private MouseButton freeRunButton = MouseButton.Forward;
+    [SerializeField] private MouseButton freeRunButton;
 
     [Space(10)]
     [Header("Player settings")]
@@ -88,8 +88,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsPressingMovementKeys()
     {
-        if(CustomInputManager.GetKey("MoveForward") || 
-            CustomInputManager.GetKey("MoveBackward") || 
+        if (CustomInputManager.GetKey("MoveForward") ||
+            CustomInputManager.GetKey("MoveBackward") ||
             CustomInputManager.GetKey("MoveLeft") ||
             CustomInputManager.GetKey("MoveRight"))
         {
@@ -109,7 +109,9 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!firstFrame && isGrounded && !groundedLastFrame)
             {
+#if UNITY_EDITOR
                 Debug.Log("Player Landed");
+#endif
                 OnPlayerLanded?.Invoke();
             }
             if (isGrounded && velocity.y < 0)
@@ -119,11 +121,16 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetMouseButtonDown((int)freeRunButton) && !isFreeRunning)
             {
+#if UNITY_EDITOR
                 Debug.Log("Free Running Enabled");
+#endif
                 isFreeRunning = true;
             }
             else if (Input.GetMouseButtonDown((int)freeRunButton) || IsPressingMovementKeys() && isFreeRunning)
             {
+#if UNITY_EDITOR
+                Debug.Log("Free Running Disabled");
+#endif
                 isFreeRunning = false;
             }
 
@@ -147,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
                 {
+                    isFreeRunning = false;
                     vertical += 1f;
                 }
 
@@ -186,7 +194,6 @@ public class PlayerMovement : MonoBehaviour
                         horizontalVelocity = directionVector * movementSpeed; // Store the horizontal velocity
                         RotateWithVelocityFront(directionVector);
                     }
-                    OnPlayerAttemptingMove?.Invoke(this.gameObject);
                 }
                 else
                 {
@@ -216,19 +223,25 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && !groundedLastFrame)
         {
+#if UNITY_EDITOR
             Debug.Log("Player Landed");
+#endif
             horizontalVelocity = Vector3.zero;
             OnPlayerLanded?.Invoke();
         }
         // Combine horizontal and vertical velocity
         Vector3 finalVelocity = horizontalVelocity + new Vector3(0, velocity.y, 0);
+        if(finalVelocity.magnitude > 0.1f)
+        {
+            OnPlayerAttemptingMove?.Invoke(this.gameObject);
+        }
         if (!isGrounded && velocity.y < 0)
         {
             OnPlayerFalling?.Invoke();
         }
 
         characterController.Move(finalVelocity * Time.deltaTime);
-        if(firstFrame)
+        if (firstFrame)
         {
             firstFrame = false;
         }

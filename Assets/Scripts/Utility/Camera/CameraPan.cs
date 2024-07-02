@@ -20,7 +20,7 @@ public class CameraPan : MonoBehaviour
     [SerializeField] private float scrollSpeed = 10f;
     [SerializeField] private float minFollowDistance = 2f;
     [SerializeField] private float maxFollowDistance = 20f;
-    [SerializeField, Range(0, 30)] private float cameraScrollSmoothness = 5f;
+    [SerializeField, Range(0, 50)] private float cameraScrollSmoothness = 5f;
 
     [Space(10)]
     [Header("Camera Settings")]
@@ -104,6 +104,8 @@ public class CameraPan : MonoBehaviour
         float mouseX = GetMouseInput("Mouse X");
         float mouseY = GetMouseInput("Mouse Y");
 
+        mouseY = Mathf.Clamp(mouseY, BottomClamp, TopClamp);
+
         cinemachineTargetYaw = UpdateRotation(cinemachineTargetYaw, mouseX, float.MinValue, float.MaxValue, false);
         cinemachineTargetPitch = UpdateRotation(cinemachineTargetPitch, mouseY, BottomClamp, TopClamp, true);
     }
@@ -123,9 +125,9 @@ public class CameraPan : MonoBehaviour
 
     private void SmoothCameraRotation()
     {
-        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.z, playerTarget.eulerAngles.z, smoothRotationFactor * Time.deltaTime));
+        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), panPoint.eulerAngles.z);
         cinemachineTargetYaw = panPoint.eulerAngles.y;
-        cinemachineTargetPitch = Mathf.Clamp(panPoint.eulerAngles.x, BottomClamp, TopClamp);
+        cinemachineTargetPitch = panPoint.eulerAngles.x;
     }
 
     private void ApplyCameraRotation(float pitch, float yaw)
@@ -141,7 +143,7 @@ public class CameraPan : MonoBehaviour
     private float UpdateRotation(float currentRotation, float input, float min, float max, bool isXAxis)
     {
         currentRotation += isXAxis ? -input : input;
-        return Mathf.Clamp(currentRotation, min, max);
+        return currentRotation;
     }
 
     private void CameraZoom()
