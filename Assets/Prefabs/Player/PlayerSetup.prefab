@@ -596,6 +596,7 @@ MonoBehaviour:
   scrollSpeed: 10
   minFollowDistance: 2
   maxFollowDistance: 20
+  cameraScrollSmoothness: 25
   repositionCameraToBackWhileWalking: 1
   smoothRotationFactor: 1
 --- !u!114 &4865616589180018929
@@ -687,7 +688,7 @@ Transform:
   m_GameObject: {fileID: 2131023088710442210}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.21299744}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1330,7 +1331,7 @@ MonoBehaviour:
   Damping: {x: 0, y: 0, z: 0}
   ShoulderOffset: {x: 0.71, y: 2.12, z: 0}
   VerticalArmLength: -0.72
-  CameraSide: 0.65
+  CameraSide: 0.5
   CameraDistance: 5.26
   CameraCollisionFilter:
     serializedVersion: 2

@@ -659,7 +659,7 @@ Transform:
   m_GameObject: {fileID: 335689834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 76.69562, y: 2.3999946, z: 151.13913}
+  m_LocalPosition: {x: 76.69562, y: 2.3999946, z: 151.35213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3650,10 +3650,6 @@ PrefabInstance:
     - target: {fileID: 2391367853583550695, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       propertyPath: m_Name
       value: PlayerSetup
-      objectReference: {fileID: 0}
-    - target: {fileID: 4833756106059633296, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: cameraScrollSmoothness
-      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6394663790402548539, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       propertyPath: m_LocalPosition.x
