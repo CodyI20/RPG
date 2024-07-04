@@ -6,6 +6,8 @@ public class AbilitySystem : MonoBehaviour
     [SerializeField] AbilityData[] startingAbilities;
     AbilityController controller;
 
+    bool isPlayerDead = false;
+
     void Awake()
     {
         controller = new AbilityController.Builder()
@@ -13,5 +15,22 @@ public class AbilitySystem : MonoBehaviour
             .Build(view);
     }
 
-    void Update() => controller.Update(Time.deltaTime);
+    private void OnEnable()
+    {
+        PlayerStats.Instance.OnPlayerDeath += HandlePlayerDeath;
+    }
+    private void OnDisable()
+    {
+        PlayerStats.Instance.OnPlayerDeath -= HandlePlayerDeath;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        isPlayerDead = true;
+    }
+
+    void Update()
+    {
+        if (!isPlayerDead) controller.Update(Time.deltaTime);
+    }
 }
