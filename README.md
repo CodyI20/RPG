@@ -42,3 +42,7 @@ https://ambientcg.com/
 ![PavingStones070_2K-JPG_Color](https://github.com/CodyI20/RPG/assets/125357154/2f28173e-bda2-4e9e-81b9-3360764e283d)
 
 ![Grass2K](https://github.com/CodyI20/RPG/assets/125357154/7454bbeb-cccc-421a-95dd-537f6d1e3fce)
+
+Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame icons">Frame icons created by See Icons - Flaticon</a>
+
+![IconFrame](https://github.com/CodyI20/RPG/assets/125357154/a54596ff-ac7a-45d6-868b-811a1ae18292)
