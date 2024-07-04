@@ -14,6 +14,6 @@
         {
             animationHash = data.animationHash
         });
-        data.logic.Execute();
+        data.eventRaiser.Execute();
     }
 }

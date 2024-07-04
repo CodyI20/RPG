@@ -4,8 +4,6 @@ public class SpiritWolfSpawner : MonoBehaviour
 {
     [SerializeField, Tooltip("Drag in the prefab of the spirit wolf")] private GameObject _spiritWolfPrefab;
 
-    [SerializeField] private AbilityData abilityData;
-
     private EventBinding<SpiritWolfSpawnedEvent> spiritWolfSpawned;
 
     private void OnEnable()
@@ -21,5 +19,8 @@ public class SpiritWolfSpawner : MonoBehaviour
     private void OnSpiritWolfSpawned(SpiritWolfSpawnedEvent e)
     {
         Instantiate(_spiritWolfPrefab, transform.position, transform.rotation);
+#if UNITY_EDITOR
+        Debug.Log("Spirit Wolf Spawned from SpiritWolfLogic");
+#endif
     }
 }

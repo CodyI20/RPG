@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AbilityData", menuName = "ScriptableObjects/AbilityData", order = 1)]
+[CreateAssetMenu(fileName = "AbilityData", menuName = "ScriptableObjects/AbilityData", order = 0)]
 public class AbilityData : ScriptableObject
 {
     public AnimationClip animationClip;
-    public AbilityLogic logic;
+    public AbilityEventRaiser eventRaiser;
     [HideInInspector] public int animationHash;
     public float cooldown;
     public Sprite icon;

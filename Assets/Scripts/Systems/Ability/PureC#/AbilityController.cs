@@ -49,7 +49,7 @@ public class AbilityController
 
     void OnAbilityButtonPressed(int index)
     {
-        if (timer.Progress < 0.25f || !timer.IsRunning)
+        if (timer.Progress < 0.05f || !timer.IsRunning)
         {
             if (model.abilities[index] != null)
             {
