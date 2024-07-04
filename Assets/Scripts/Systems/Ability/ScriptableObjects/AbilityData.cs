@@ -5,7 +5,7 @@ public class AbilityData : ScriptableObject
 {
     public AnimationClip animationClip;
     [HideInInspector] public int animationHash;
-    public float duration;
+    public float cooldown;
     public Sprite icon;
     public string fullName;
 

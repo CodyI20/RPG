@@ -4965,6 +4965,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2003027852327364950, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9162290125071623529}
+    - targetCorrespondingSourceObject: {fileID: 2003027852327364950, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9162290125071623537}
   m_SourcePrefab: {fileID: 100100000, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
 --- !u!1 &9162290125071623528 stripped
 GameObject:
@@ -4986,6 +4989,20 @@ MonoBehaviour:
   view: {fileID: 906438728}
   startingAbilities:
   - {fileID: 11400000, guid: ac98d64c0e1707748bec9b6bb0193705, type: 2}
+--- !u!114 &9162290125071623537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9162290125071623528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e94e753c76f4d54da33dd60fea410c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spiritWolfPrefab: {fileID: 2581955631874928125, guid: 3dc0cf4322ceb00439f33a646b4f4a84, type: 3}
+  abilityData: {fileID: 11400000, guid: ac98d64c0e1707748bec9b6bb0193705, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

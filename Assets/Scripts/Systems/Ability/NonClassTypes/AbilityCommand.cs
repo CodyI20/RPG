@@ -1,7 +1,7 @@
 ﻿public class AbilityCommand : ICommand
 {
     private readonly AbilityData data;
-    public float duration => data.duration;
+    public float duration => data.cooldown;
 
     public AbilityCommand(AbilityData data)
     {
@@ -14,5 +14,6 @@
         {
             animationHash = data.animationHash
         });
+        EventBus<SpiritWolfSpawnedEvent>.Raise(new SpiritWolfSpawnedEvent());
     }
 }

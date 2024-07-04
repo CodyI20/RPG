@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationClip: {fileID: -203655887218126122, guid: 2b07c0256c055f343b40f5e11331e375, type: 3}
   animationHash: 131987381
-  duration: 1
+  cooldown: 4
   icon: {fileID: 21300000, guid: 68481259bcfb36341a70b17ee91f30d8, type: 3}
   fullName: SpiritWolf
