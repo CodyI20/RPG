@@ -1,7 +1,8 @@
 ﻿using System;
+using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine;
 
 public class AbilityButton : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class AbilityButton : MonoBehaviour
     public Image abilityIcon;
     [HideInInspector] public int index;
     [SerializeField] private Key keyToPress;
+    [SerializeField] private TextMeshProUGUI hotkeyDisplay;
     public Key key
     {
         get => keyToPress;
@@ -39,6 +41,15 @@ public class AbilityButton : MonoBehaviour
     {
         this.key = key;
         this.index = index;
+        if (key.ToString().Contains("Digit"))
+        {
+            hotkeyDisplay.text = key.ToString().Replace("Digit", "");
+        }else if (key.ToString().Contains("Alpha"))
+        {
+            hotkeyDisplay.text = key.ToString().Replace("Alpha", "");
+        }
+        else
+            hotkeyDisplay.text = key.ToString();
     }
 
     public void UpdateButtonSprite(Sprite newIcon)

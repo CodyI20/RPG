@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
 [RequireComponent(typeof(VisualEffect))]
 public class HealVFXTrigger : MonoBehaviour
 {
+    [SerializeField] private float timeToWait = 0.3f;
     private EventBinding<HealEvent> _healEventBinding;
     private VisualEffect vfx;
 
@@ -24,9 +26,15 @@ public class HealVFXTrigger : MonoBehaviour
 
     private void OnHealEvent(HealEvent e)
     {
-        vfx.Play();
+        StartCoroutine(PlayerAfterTime());
 #if UNITY_EDITOR
         Debug.Log("Triggering the VFX for the heal ability");
 #endif
+    }
+
+    IEnumerator PlayerAfterTime()
+    {
+        yield return new WaitForSeconds(timeToWait);
+        vfx.Play();
     }
 }

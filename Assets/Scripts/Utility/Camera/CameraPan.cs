@@ -1,5 +1,6 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraPan : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class CameraPan : MonoBehaviour
     [SerializeField] private float panSpeed = 5f;
     [SerializeField] private float TopClamp = 70f;
     [SerializeField] private float BottomClamp = -40f;
+    private Vector2 mousePositionBeforeLock = Vector2.zero;
 
     [Space(10)]
     [Header("Scroll Settings")]
@@ -59,9 +61,12 @@ public class CameraPan : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             HideCursor();
+        }
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1) || Input.GetMouseButton(1))
+        {
             if (!isPlayerDead)
             {
                 PlayerAndCameraRotateLogic();
@@ -73,7 +78,6 @@ public class CameraPan : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            HideCursor();
             CameraRotateLogic();
         }
         if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
@@ -85,11 +89,13 @@ public class CameraPan : MonoBehaviour
 
     private void HideCursor()
     {
+        mousePositionBeforeLock = Input.mousePosition;
         Cursor.visible = false;
     }
 
     private void ShowCursor()
     {
+        Mouse.current.WarpCursorPosition(mousePositionBeforeLock);
         Cursor.visible = true;
     }
 

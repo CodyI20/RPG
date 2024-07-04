@@ -187,10 +187,8 @@ public class Outline : MonoBehaviour
             renderer.materials = materials.ToArray();
         }
     }
-
     void OnDestroy()
     {
-
         // Destroy material instances
         Destroy(outlineMaskMaterial);
         Destroy(outlineFillMaterial);

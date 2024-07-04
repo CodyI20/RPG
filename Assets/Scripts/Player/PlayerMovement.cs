@@ -223,11 +223,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && !groundedLastFrame)
         {
-#if UNITY_EDITOR
-            Debug.Log("Player Landed");
-#endif
             horizontalVelocity = Vector3.zero;
-            OnPlayerLanded?.Invoke();
         }
         // Combine horizontal and vertical velocity
         Vector3 finalVelocity = horizontalVelocity + new Vector3(0, velocity.y, 0);
