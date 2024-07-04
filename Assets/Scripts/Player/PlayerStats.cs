@@ -1,4 +1,5 @@
 using UnityEngine;
+using CodyUtilities;
 
 //Since it's a single-player game, we can use a singleton pattern to manage the player's stats.
 public class PlayerStats : Singleton<PlayerStats>

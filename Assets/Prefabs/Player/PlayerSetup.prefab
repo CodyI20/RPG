@@ -523,7 +523,6 @@ GameObject:
   - component: {fileID: 4833756106059633296}
   - component: {fileID: 4865616589180018929}
   - component: {fileID: 6899044524923786948}
-  - component: {fileID: 2846005341643371505}
   - component: {fileID: 2608889768624523416}
   m_Layer: 0
   m_Name: Player
@@ -634,21 +633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d899dd4d161f07843ac6f20dcba470d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2846005341643371505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003027852327364950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e94e753c76f4d54da33dd60fea410c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spiritWolfPrefab: {fileID: 2581955631874928125, guid: 3dc0cf4322ceb00439f33a646b4f4a84, type: 3}
-  _spawnKey: 116
-  _spawnRate: 1
 --- !u!114 &2608889768624523416
 MonoBehaviour:
   m_ObjectHideFlags: 0

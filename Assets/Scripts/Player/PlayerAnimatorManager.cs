@@ -7,6 +7,8 @@ public class PlayerAnimatorManager : MonoBehaviour
 {
     private Animator animator;
     private PlayerMovement playerMovement;
+    
+    EventBinding<PlayerAnimationEvent> eventBinding;
     //private HashSet<string> activeAnimations = new HashSet<string>();
 
     //Constants for animation states to avoid typos and magic strings
@@ -52,6 +54,8 @@ public class PlayerAnimatorManager : MonoBehaviour
     #region EventSubscriptions
     private void OnEnable()
     {
+        eventBinding = new EventBinding<PlayerAnimationEvent>(HandlePlayerEvent);
+        EventBus<PlayerAnimationEvent>.Register(eventBinding);
         playerMovement.OnPlayerMovingFront += () => SetAnimationState(RUNNING, true);
         playerMovement.OnPlayerStoppedMoving += () => SetAnimationState(RUNNING, false);
         playerMovement.OnPlayerFalling += () => SetAnimationState(FALLING, true);
@@ -67,6 +71,7 @@ public class PlayerAnimatorManager : MonoBehaviour
 
     private void OnDisable()
     {
+        EventBus<PlayerAnimationEvent>.Deregister(eventBinding);
         playerMovement.OnPlayerMovingFront -= () => SetAnimationState(RUNNING, true);
         playerMovement.OnPlayerStoppedMoving -= () => SetAnimationState(RUNNING, false);
         playerMovement.OnPlayerFalling -= () => SetAnimationState(FALLING, true);
@@ -80,6 +85,11 @@ public class PlayerAnimatorManager : MonoBehaviour
         PlayerStats.Instance.OnPlayerDeath += () => SetAnimationTrigger(DYING);
     }
     #endregion
+
+    private void HandlePlayerEvent(PlayerAnimationEvent playerEvent)
+    {
+        PlayAnimation(playerEvent.animationHash);
+    }
 
     private void SetAnimationState(string animationName, bool state)
     {
@@ -105,6 +115,11 @@ public class PlayerAnimatorManager : MonoBehaviour
     private void ResetAnimationTrigger(string triggerName)
     {
         animator.ResetTrigger(triggerName);
+    }
+
+    private void PlayAnimation(int animationHash)
+    {
+        animator.Play(animationHash);
     }
 
     //IEnumerator ClearTriggerAnimation(string triggerName)
