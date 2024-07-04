@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System;
-using UnityEngine.InputSystem;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AbilityView : MonoBehaviour
 {
@@ -18,8 +18,8 @@ public class AbilityView : MonoBehaviour
                 Debug.LogError("Not enough keycodes for the number of buttons.");
                 break;
             }
-
-            buttons[i].Initialize(i, keys[i]);
+            if (buttons[i].key == Key.None)
+                buttons[i].Initialize(i, keys[i]);
 
             UpdateRadial(0);
         }

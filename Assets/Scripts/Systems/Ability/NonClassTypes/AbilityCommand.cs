@@ -14,6 +14,6 @@
         {
             animationHash = data.animationHash
         });
-        EventBus<SpiritWolfSpawnedEvent>.Raise(new SpiritWolfSpawnedEvent());
+        data.logic.Execute();
     }
 }

@@ -7,8 +7,13 @@ public class AbilityButton : MonoBehaviour
 {
     public Image radialImage;
     public Image abilityIcon;
-    public int index;
-    public Key key;
+    [HideInInspector] public int index;
+    [SerializeField] private Key keyToPress;
+    public Key key
+    {
+        get => keyToPress;
+        private set => keyToPress = value;
+    }
 
     public event Action<int> OnButtonPressed = delegate { };
 

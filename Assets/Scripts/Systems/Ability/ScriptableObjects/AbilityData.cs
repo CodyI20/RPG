@@ -4,10 +4,12 @@
 public class AbilityData : ScriptableObject
 {
     public AnimationClip animationClip;
+    public AbilityLogic logic;
     [HideInInspector] public int animationHash;
     public float cooldown;
     public Sprite icon;
     public string fullName;
+
 
     void OnValidate()
     {

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SpiritWolf
   m_EditorClassIdentifier: 
   animationClip: {fileID: -203655887218126122, guid: 2b07c0256c055f343b40f5e11331e375, type: 3}
+  logic: {fileID: 11400000, guid: 7c6f5072ba47fd04188a4a463494b699, type: 2}
   animationHash: 131987381
   cooldown: 4
   icon: {fileID: 21300000, guid: 68481259bcfb36341a70b17ee91f30d8, type: 3}
