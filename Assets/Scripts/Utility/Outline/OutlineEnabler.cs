@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class OutlineEnabler : MonoBehaviour
 {
+    public static event System.Action OnSelection;
     private const string OUTLINE_TAG = "Outlineable";
 
     [Header("Outline settings")]
@@ -15,12 +16,16 @@ public class OutlineEnabler : MonoBehaviour
 
     void Update()
     {
+        if (!Cursor.visible) return;
         HandleHighlight();
         HandleSelection();
     }
 
     private void HandleHighlight()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (highlight != null)
         {
             var outline = highlight.GetComponent<Outline>();
@@ -28,8 +33,6 @@ public class OutlineEnabler : MonoBehaviour
             highlight = null;
         }
 
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out raycastHit))
@@ -59,14 +62,9 @@ public class OutlineEnabler : MonoBehaviour
         {
             if (highlight != null)
             {
-                if (selection != null)
-                {
-                    var outline = selection.GetComponent<Outline>();
-                    if (outline != null) outline.enabled = false;
-                }
                 selection = highlight;
                 var highlightOutline = selection.GetComponent<Outline>();
-                if (highlightOutline != null) highlightOutline.enabled = true;
+                if (highlightOutline != null) { highlightOutline.enabled = true; OnSelection?.Invoke(); }
                 highlight = null;
             }
             else

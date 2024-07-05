@@ -574,7 +574,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.2
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4833756106059633296
 MonoBehaviour:
@@ -591,7 +591,7 @@ MonoBehaviour:
   panPoint: {fileID: 3086179229320590678}
   playerTarget: {fileID: 3962194593745142258}
   cinemachineVirtualCamera: {fileID: 4175281068899239186}
-  panSpeed: 200
+  panSpeed: 400
   TopClamp: 70
   BottomClamp: -40
   scrollSpeed: 15
@@ -599,6 +599,7 @@ MonoBehaviour:
   maxFollowDistance: 20
   cameraScrollSmoothness: 20
   repositionCameraToBackWhileWalking: 1
+  repositionCameraVertical: 0
   smoothRotationFactor: 1
 --- !u!114 &4865616589180018929
 MonoBehaviour:
@@ -620,7 +621,7 @@ MonoBehaviour:
   jumpKey: 32
   freeRunButton: 3
   movementSpeed: 5
-  backwardsMovementSpeedPercentage: 0.4
+  backwardsMovementSpeedPercentage: 0.5
   jumpHeight: 1.2
   rotationSpeed: 7
 --- !u!114 &6899044524923786948
@@ -2378,7 +2379,6 @@ GameObject:
   - component: {fileID: 1234795261515522982}
   - component: {fileID: 8210585636091520332}
   - component: {fileID: 2313254000556080124}
-  - component: {fileID: 1663851031155677919}
   m_Layer: 0
   m_Name: AbilityHolder
   m_TagString: Untagged
@@ -2427,19 +2427,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spiritWolfPrefab: {fileID: 2581955631874928125, guid: 3dc0cf4322ceb00439f33a646b4f4a84, type: 3}
---- !u!114 &1663851031155677919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8110165918609929493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbb9663486ce40d4dbf1b3f474f63b7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healAmount: 10
 --- !u!1 &8180282609976718669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,6 +2934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d2a7abc73ce0f438119adacca37cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToWait: 0.5
 --- !u!4 &2474991178808639428 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7046088843884104594, guid: c39e107717cbe4a43a90981cb5053d73, type: 3}

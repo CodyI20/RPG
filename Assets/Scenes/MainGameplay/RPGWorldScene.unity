@@ -8272,18 +8272,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSetup
       objectReference: {fileID: 0}
-    - target: {fileID: 2955848851879144459, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: timeToWait
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4833756106059633296, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: panSpeed
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 4865616589180018929, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: backwardsMovementSpeedPercentage
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6394663790402548539, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       propertyPath: m_LocalPosition.x
       value: 76.69562
@@ -8324,16 +8312,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8171863167189465123, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: m_Center.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8171863167189465123, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
-      propertyPath: m_MinMoveDistance
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1663851031155677919, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

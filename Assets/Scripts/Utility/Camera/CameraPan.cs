@@ -27,6 +27,7 @@ public class CameraPan : MonoBehaviour
     [Space(10)]
     [Header("Camera Settings")]
     [SerializeField] private bool repositionCameraToBackWhileWalking = true;
+    [SerializeField] private bool repositionCameraVertical = true;
     [SerializeField, Range(0, 20)] private float smoothRotationFactor = 0.2f;
 
     private float cinemachineTargetYaw;
@@ -61,7 +62,7 @@ public class CameraPan : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             HideCursor();
         }
@@ -131,9 +132,17 @@ public class CameraPan : MonoBehaviour
 
     private void SmoothCameraRotation()
     {
-        panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), panPoint.eulerAngles.z);
-        cinemachineTargetYaw = panPoint.eulerAngles.y;
-        cinemachineTargetPitch = panPoint.eulerAngles.x;
+        if (repositionCameraVertical)
+        {
+            panPoint.rotation = Quaternion.Euler(Mathf.LerpAngle(panPoint.eulerAngles.x, playerTarget.eulerAngles.x, smoothRotationFactor * Time.deltaTime), Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), panPoint.eulerAngles.z);
+            cinemachineTargetYaw = panPoint.eulerAngles.y;
+            cinemachineTargetPitch = panPoint.eulerAngles.x;
+        }
+        else
+        {
+            panPoint.rotation = Quaternion.Euler(panPoint.eulerAngles.x, Mathf.LerpAngle(panPoint.eulerAngles.y, playerTarget.eulerAngles.y, smoothRotationFactor * Time.deltaTime), panPoint.eulerAngles.z);
+            cinemachineTargetYaw = panPoint.eulerAngles.y;
+        }
     }
 
     private void ApplyCameraRotation(float pitch, float yaw)
