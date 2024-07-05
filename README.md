@@ -1,5 +1,5 @@
 # RPG
-This repo will contain an RPG game demo made in Unity
+This repo contains an RPG game demo made in Unity
 
 
 
@@ -36,7 +36,7 @@ Quest giver NPC model and animations were all aquired from Mixamo: https://www.m
 
 
 
-Textures for the environment:
+*Textures for the environment*:
 https://ambientcg.com/
 
 
@@ -48,7 +48,7 @@ https://ambientcg.com/
 
 ![Grass2K](https://github.com/CodyI20/RPG/assets/125357154/7454bbeb-cccc-421a-95dd-537f6d1e3fce)
 
-The house model and textures were aquired from Sketchfab: "Wooden Log Cabin" (https://skfb.ly/6WKTP) by donnichols is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+The house model and textures were acquired from Sketchfab: "Wooden Log Cabin" (https://skfb.ly/6WKTP) by donnichols is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 ![WoodenCabin](https://github.com/CodyI20/RPG/assets/125357154/14735367-b673-405c-a7b4-3992b6c38e5c)
 
@@ -56,3 +56,10 @@ The house model and textures were aquired from Sketchfab: "Wooden Log Cabin" (ht
 Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame icons">Frame icons created by See Icons - Flaticon</a>
 
 ![IconFrame](https://github.com/CodyI20/RPG/assets/125357154/a54596ff-ac7a-45d6-868b-811a1ae18292)
+
+*Sounds*:
+The sounds have been acquired from Wowhead:
+
+https://www.wowhead.com/sound=6019/orcmaleguardnpcfarewells
+https://www.wowhead.com/sound=6018/orcmaleguardnpcgreetings
+
