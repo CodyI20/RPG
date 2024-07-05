@@ -9,8 +9,8 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class ObjectSelector : MonoBehaviour
 {
-    public static event System.Action<Transform> OnSelection;
-    public static event System.Action<Transform> OnDeselection;
+    public static event System.Action<Transform, Transform> OnSelection;
+    public static event System.Action<Transform, Transform> OnDeselection;
 
     [Header("Outline settings")]
     [SerializeField] private bool usesOutline = true;
@@ -73,12 +73,12 @@ public class ObjectSelector : MonoBehaviour
                 if (selection != null && selection != highlight)
                 {
                     var outline = selection.GetComponent<Outline>();
-                    if (outline != null) { outline.enabled = false; OnDeselection?.Invoke(selection); }
+                    if (outline != null) { outline.enabled = false; OnDeselection?.Invoke(transform, selection); }
                     selection = null;
                 }
                 selection = highlight;
                 var highlightOutline = selection.GetComponent<Outline>();
-                if (highlightOutline != null) { highlightOutline.enabled = true; OnSelection?.Invoke(selection); }
+                if (highlightOutline != null) { highlightOutline.enabled = true; OnSelection?.Invoke(transform, selection); }
                 highlight = null;
             }
         }
@@ -86,7 +86,7 @@ public class ObjectSelector : MonoBehaviour
         if (selection != null && Input.GetKeyDown(KeyCode.Escape))
         {
             var outline = selection.GetComponent<Outline>();
-            if (outline != null){ outline.enabled = false; OnDeselection?.Invoke(selection); }
+            if (outline != null){ outline.enabled = false; OnDeselection?.Invoke(transform, selection); }
             selection = null;
         }
     }

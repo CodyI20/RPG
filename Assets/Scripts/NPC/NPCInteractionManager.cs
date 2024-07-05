@@ -38,7 +38,7 @@ public class NPCInteractionManager : MonoBehaviour
         ObjectSelector.OnDeselection -= HandleDeselection;
     }
 
-    private void HandleDeselection(Transform deselection)
+    private void HandleDeselection(Transform selector, Transform deselection)
     {
 #if UNITY_EDITOR
         Debug.Log("Deselected: " + deselection.name);
@@ -53,7 +53,7 @@ public class NPCInteractionManager : MonoBehaviour
         }
     }
 
-    private void HandleSelection(Transform selection)
+    private void HandleSelection(Transform selector, Transform selection)
     {
 #if UNITY_EDITOR
         Debug.Log("Selected: " + selection.name);
@@ -64,7 +64,7 @@ public class NPCInteractionManager : MonoBehaviour
             //SOUND
             PlayRandomAudioClip(greetingsAudioClips);
             //ROTATION
-            HandleCoroutine(ConstantlyRotateTowards(Camera.main.transform));
+            HandleCoroutine(ConstantlyRotateTowards(selector));
         }
     }
     #region SOUND
