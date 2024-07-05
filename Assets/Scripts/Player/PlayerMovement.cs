@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public event System.Action OnPlayerMovingFront;
     public event System.Action OnPlayerStoppedMoving;
     public event System.Action OnPlayerMovingBack;
-    public static event System.Action<GameObject> OnPlayerAttemptingMove;
+    public static event System.Action<GameObject> OnPlayerAttemptingMove; //Used in the CameraPan script to lerp the camera back when the player attempts to move
 
     //Jump Events
     public event System.Action OnPlayerJumped;
@@ -228,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
         // Combine horizontal and vertical velocity
         Vector3 finalVelocity = horizontalVelocity + new Vector3(0, velocity.y, 0);
 
-        if(horizontalVelocity.magnitude > 0.05f)
+        if(horizontalVelocity.magnitude > 0.01f)
         {
             OnPlayerAttemptingMove?.Invoke(this.gameObject);
         }

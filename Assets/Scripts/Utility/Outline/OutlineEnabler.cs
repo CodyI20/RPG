@@ -3,7 +3,8 @@ using UnityEngine.EventSystems;
 
 public class OutlineEnabler : MonoBehaviour
 {
-    public static event System.Action OnSelection;
+    public static event System.Action<Transform> OnSelection;
+    public static event System.Action<Transform> OnDeselection;
     private const string OUTLINE_TAG = "Outlineable";
 
     [Header("Outline settings")]
@@ -62,26 +63,23 @@ public class OutlineEnabler : MonoBehaviour
         {
             if (highlight != null)
             {
-                selection = highlight;
-                var highlightOutline = selection.GetComponent<Outline>();
-                if (highlightOutline != null) { highlightOutline.enabled = true; OnSelection?.Invoke(); }
-                highlight = null;
-            }
-            else
-            {
-                if (selection != null)
+                if (selection != null && selection != highlight)
                 {
                     var outline = selection.GetComponent<Outline>();
-                    if (outline != null) outline.enabled = false;
+                    if (outline != null) { outline.enabled = false; OnDeselection?.Invoke(selection); }
                     selection = null;
                 }
+                selection = highlight;
+                var highlightOutline = selection.GetComponent<Outline>();
+                if (highlightOutline != null) { highlightOutline.enabled = true; OnSelection?.Invoke(selection); }
+                highlight = null;
             }
         }
 
         if (selection != null && Input.GetKeyDown(KeyCode.Escape))
         {
             var outline = selection.GetComponent<Outline>();
-            if (outline != null) outline.enabled = false;
+            if (outline != null){ outline.enabled = false; OnDeselection?.Invoke(selection); }
             selection = null;
         }
     }
