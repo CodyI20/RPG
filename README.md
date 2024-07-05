@@ -30,6 +30,11 @@ Player model and animations were all aquired from Mixamo: https://www.mixamo.com
 
 ![NecromancerModel](https://github.com/CodyI20/RPG/assets/125357154/644dc3ab-c8fc-4389-b153-ffb5b8bf8d64)
 
+Quest giver NPC model and animations were all aquired from Mixamo: https://www.mixamo.com/#/?page=1&query=Idle
+
+![VampireModel](https://github.com/CodyI20/RPG/assets/125357154/6b619106-16f5-42db-bb3b-830aea9fbab5)
+
+
 
 Textures for the environment:
 https://ambientcg.com/
@@ -42,6 +47,11 @@ https://ambientcg.com/
 ![PavingStones070_2K-JPG_Color](https://github.com/CodyI20/RPG/assets/125357154/2f28173e-bda2-4e9e-81b9-3360764e283d)
 
 ![Grass2K](https://github.com/CodyI20/RPG/assets/125357154/7454bbeb-cccc-421a-95dd-537f6d1e3fce)
+
+The house model and textures were aquired from Sketchfab: "Wooden Log Cabin" (https://skfb.ly/6WKTP) by donnichols is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+![WoodenCabin](https://github.com/CodyI20/RPG/assets/125357154/14735367-b673-405c-a7b4-3992b6c38e5c)
+
 
 Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame icons">Frame icons created by See Icons - Flaticon</a>
 
