@@ -28,14 +28,14 @@ public class NPCInteractionManager : MonoBehaviour
 
     private void OnEnable()
     {
-        OutlineEnabler.OnSelection += HandleSelection;
-        OutlineEnabler.OnDeselection += HandleDeselection;
+        ObjectSelector.OnSelection += HandleSelection;
+        ObjectSelector.OnDeselection += HandleDeselection;
     }
 
     private void OnDisable()
     {
-        OutlineEnabler.OnSelection -= HandleSelection;
-        OutlineEnabler.OnDeselection -= HandleDeselection;
+        ObjectSelector.OnSelection -= HandleSelection;
+        ObjectSelector.OnDeselection -= HandleDeselection;
     }
 
     private void HandleDeselection(Transform deselection)

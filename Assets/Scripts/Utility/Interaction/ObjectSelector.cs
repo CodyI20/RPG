@@ -1,13 +1,20 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OutlineEnabler : MonoBehaviour
+/// <summary>
+/// This class takes care of selecting and highlighting objects in the scene.
+/// 
+/// **NOTE**
+/// Use the usesOutline flag to enable or disable the use of the outline effect when selecting and deselecting objects.
+/// </summary>
+public class ObjectSelector : MonoBehaviour
 {
     public static event System.Action<Transform> OnSelection;
     public static event System.Action<Transform> OnDeselection;
-    private const string OUTLINE_TAG = "Outlineable";
 
     [Header("Outline settings")]
+    [SerializeField] private bool usesOutline = true;
+    private const string OUTLINE_TAG = "Outlineable";
     [SerializeField] private Color outlineColor = Color.white;
     [SerializeField, Range(0, 10)] private float outlineWidth = 2.0f;
 
