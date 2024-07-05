@@ -18,7 +18,7 @@ public class NPCInteractionManager : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        if(rotationTarget == null) Debug.LogError("Rotation target not set for: " + name);
+        if (rotationTarget == null) Debug.LogError("Rotation target not set for: " + name);
     }
 
     private void Start()
@@ -44,13 +44,13 @@ public class NPCInteractionManager : MonoBehaviour
         Debug.Log("Deselected: " + deselection.name);
 #endif
         isSelected = false;
-        //SOUND
         if (deselection == transform)
         {
+            //SOUND
             PlayRandomAudioClip(farewellAudioClips);
+            //ROTATION
+            HandleCoroutine(RotateToInitialPosition());
         }
-        //ROTATION
-        HandleCoroutine(RotateToInitialPosition());
     }
 
     private void HandleSelection(Transform selection)
@@ -59,20 +59,20 @@ public class NPCInteractionManager : MonoBehaviour
         Debug.Log("Selected: " + selection.name);
 #endif
         isSelected = true;
-        //SOUND
         if (selection == transform)
         {
+            //SOUND
             PlayRandomAudioClip(greetingsAudioClips);
+            //ROTATION
+            HandleCoroutine(ConstantlyRotateTowards(Camera.main.transform));
         }
-        //ROTATION
-        HandleCoroutine(ConstantlyRotateTowards(Camera.main.transform));
     }
     #region SOUND
 
     private void PlayRandomAudioClip(AudioClip[] audioClips)
     {
         if (audioClips.Length == 0) return;
-        audioSource.PlayOneShot(audioClips[Random.Range(0, audioClips.Length)],1);
+        audioSource.PlayOneShot(audioClips[Random.Range(0, audioClips.Length)], 1);
     }
     #endregion
 
@@ -104,7 +104,7 @@ public class NPCInteractionManager : MonoBehaviour
             yield return null;
         }
         rotationTarget.rotation = initialRotation;
-    }   
+    }
     #endregion
 
 }
