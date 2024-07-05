@@ -6,7 +6,7 @@ public class Quest : ScriptableObject
     [HideInInspector] public int questHash; // To avoid spelling mistakes
     public string questName;
     [Tooltip("This field should explain to the player exactly what to do in order to complete the quest")] public string objective;
-    [Tooltip("This field is for story purposes and can contain anything related to the quest")] public string description;
+    [TextArea(1,20),Tooltip("This field is for story purposes and can contain anything related to the quest")] public string description;
 
     public float experienceReward;
     public float goldReward;

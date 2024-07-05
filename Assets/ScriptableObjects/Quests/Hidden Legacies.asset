@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0295c66770ee05d4e882dfa429c2a88c, type: 3}
+  m_Name: Hidden Legacies
+  m_EditorClassIdentifier: 
+  questHash: 956382505
+  questName: Hidden Legacies
+  objective: Speak to the Healing Wings Envoy at the Seat of the Aspects to learn
+    about events in the Forbidden Reach.
+  description: Raszageth and her storms are gone, but our troubles are far from over.
+    The way to the Reach is clear again, and some of our allies have returned to
+    establish a base camp. However, Sarkareth and the Sundered Flame have begun making
+    their way there as well. We need to secure the island. We would appreciate your
+    aid.
+  experienceReward: 1300
+  goldReward: 233
+  itemReward: {fileID: 0}

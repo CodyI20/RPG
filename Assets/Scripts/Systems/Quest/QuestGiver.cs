@@ -9,6 +9,8 @@ public class QuestGiver : MonoBehaviour
     [Header("Quest Giver Settings")]
     [SerializeField] private float questGiverInteractionRadius = 1f;
 
+    EventBinding<QuestAcceptedEvent> QuestAcceptedEventBinding;
+
     private void Awake()
     {
         foreach (Quest quest in quests)
@@ -19,15 +21,30 @@ public class QuestGiver : MonoBehaviour
 
     private void OnEnable()
     {
+        QuestAcceptedEventBinding = new EventBinding<QuestAcceptedEvent>(HandleQuestAccepted);
+        EventBus<QuestAcceptedEvent>.Register(QuestAcceptedEventBinding);
         ObjectSelector.OnSelection += HandleSelection;
     }
     private void OnDisable()
     {
+        EventBus<QuestAcceptedEvent>.Deregister(QuestAcceptedEventBinding);
         ObjectSelector.OnSelection -= HandleSelection;
+    }
+
+    private void HandleQuestAccepted(QuestAcceptedEvent e)
+    {
+        if (questQueue.Count > 0)
+        {
+#if UNITY_EDITOR
+            Debug.Log("Quest accepted: " + questQueue.Peek().questName + "; Dequeueing...");
+#endif
+            questQueue.Dequeue();
+        }
     }
 
     private void HandleSelection(Transform selector, Transform selection)
     {
+        if(questQueue.Count == 0) return;
         if (selection == transform)
         {
             if (Vector3.Distance(selector.position, selection.position) <= questGiverInteractionRadius)
@@ -35,6 +52,7 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
+                EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { quest = questQueue.Peek() });
             }
             else
             {
