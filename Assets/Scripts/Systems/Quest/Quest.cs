@@ -8,6 +8,8 @@ public class Quest : ScriptableObject
     [Tooltip("This field should explain to the player exactly what to do in order to complete the quest")] public string objective;
     [TextArea(1,20),Tooltip("This field is for story purposes and can contain anything related to the quest")] public string description;
 
+    [Tooltip("Tis field holds the very short explanation of the quest")] public string shortObjective;
+
     public float experienceReward;
     public float goldReward;
     public GameObject itemReward = null; // Change to Item class later when the Inventory system is implemented

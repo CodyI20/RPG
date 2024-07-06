@@ -21,6 +21,7 @@ MonoBehaviour:
     establish a base camp. However, Sarkareth and the Sundered Flame have begun making
     their way there as well. We need to secure the island. We would appreciate your
     aid.
+  shortObjective: Press T
   experienceReward: 1300
   goldReward: 233
   itemReward: {fileID: 0}
