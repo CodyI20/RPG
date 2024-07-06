@@ -1584,11 +1584,11 @@ RectTransform:
   - {fileID: 1262846083}
   m_Father: {fileID: 1112900801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -286.5738, y: 95.398285}
-  m_SizeDelta: {x: -636.9172, y: -416.8914}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 31.884766, y: 95.398285}
+  m_SizeDelta: {x: 416.08282, y: 663.10864}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &370546772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5556,6 +5556,18 @@ MonoBehaviour:
   usesOutline: 1
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
+--- !u!114 &1788362806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788362797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ecae79fcc52f71469ea5c3eb35827db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1806195063
 GameObject:
   m_ObjectHideFlags: 0
@@ -9278,7 +9290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quests:
-  - {fileID: 11400000, guid: f5e5d303fe83abb4d8b1c167b9478af0, type: 2}
+  - {fileID: -6879618572612365861, guid: 6ce67531654649f488f62d0e1f5fcdb0, type: 3}
   questGiverInteractionRadius: 3
 --- !u!1 &5338573127432024936
 GameObject:
@@ -10698,6 +10710,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSetup
       objectReference: {fileID: 0}
+    - target: {fileID: 4833756106059633296, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+      propertyPath: repositionCameraVertical
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4833756106059633296, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+      propertyPath: repositionCameraToBackWhileWalking
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6394663790402548539, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       propertyPath: m_LocalPosition.x
       value: 76.69562
@@ -10761,6 +10781,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2003027852327364950, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1788362805}
+    - targetCorrespondingSourceObject: {fileID: 2003027852327364950, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1788362806}
   m_SourcePrefab: {fileID: 100100000, guid: d541df5c6d227da48a2faf51df380ded, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -10,7 +10,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questDescription;
     [SerializeField] private TextMeshProUGUI questObjective;
 
-    private Quest currentQuest;
+    private QuestLogic currentQuest;
 
 
     EventBinding<QuestPreviewEvent> QuestPreviewEventBinding;
@@ -28,14 +28,14 @@ public class QuestUI : MonoBehaviour
     private void HandleQuestPreview(QuestPreviewEvent e)
     {
         questPanel.SetActive(true);
-        questTitle.text = e.quest.questName;
-        questDescription.text = e.quest.description;
-        questObjective.text = e.quest.objective;
-        currentQuest = e.quest;
+        questTitle.text = e.questLogic.quest.questName;
+        questDescription.text = e.questLogic.quest.description;
+        questObjective.text = e.questLogic.quest.objective;
+        currentQuest = e.questLogic;
     }
 
     public void AcceptQuestEventPublish()
     {
-        EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { quest = currentQuest});
+        EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { questLogic = currentQuest});
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class QuestGiver : MonoBehaviour
 {
-    [SerializeField] Quest[] quests;
-    private Queue<Quest> questQueue = new Queue<Quest>();
+    [SerializeField] QuestLogic[] quests;
+    private Queue<QuestLogic> questQueue = new Queue<QuestLogic>();
 
     [Header("Quest Giver Settings")]
     [SerializeField] private float questGiverInteractionRadius = 1f;
@@ -13,7 +13,7 @@ public class QuestGiver : MonoBehaviour
 
     private void Awake()
     {
-        foreach (Quest quest in quests)
+        foreach (QuestLogic quest in quests)
         {
             questQueue.Enqueue(quest);
         }
@@ -36,7 +36,7 @@ public class QuestGiver : MonoBehaviour
         if (questQueue.Count > 0)
         {
 #if UNITY_EDITOR
-            Debug.Log("Quest accepted: " + questQueue.Peek().questName + "; Dequeueing...");
+            Debug.Log("Quest accepted: " + questQueue.Peek().quest.questName + "; Dequeueing...");
 #endif
             questQueue.Dequeue();
         }
@@ -52,7 +52,7 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
-                EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { quest = questQueue.Peek() });
+                EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { questLogic = questQueue.Peek() });
             }
             else
             {

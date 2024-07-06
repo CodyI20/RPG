@@ -158,7 +158,7 @@ public class CameraPan : MonoBehaviour
     private float UpdateRotation(float currentRotation, float input, float min, float max, bool isXAxis)
     {
         currentRotation += isXAxis ? -input : input;
-        return currentRotation;
+        return Mathf.Clamp(currentRotation,min,max);
     }
 
     private void CameraZoom()
