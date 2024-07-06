@@ -17,7 +17,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questInProgressTitle;
     [SerializeField] private TextMeshProUGUI questInProgressDescription;
     [SerializeField] private TextMeshProUGUI questInProgressObjective;
-    private QuestLogic currentQuest;
+    private QuestLogic currentlyHandledQuest;
 
 
     EventBinding<QuestPreviewEvent> QuestPreviewEventBinding;
@@ -45,7 +45,7 @@ public class QuestUI : MonoBehaviour
         questTitle.text = e.questLogic.quest.questName;
         questDescription.text = e.questLogic.quest.description;
         questObjective.text = e.questLogic.quest.objective;
-        currentQuest = e.questLogic;
+        currentlyHandledQuest = e.questLogic;
     }
 
     private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
@@ -55,12 +55,17 @@ public class QuestUI : MonoBehaviour
         questInProgressTitle.text = e.questLogic.quest.questName;
         questInProgressDescription.text = e.questLogic.quest.description;
         questInProgressObjective.text = e.questLogic.quest.objective;
-        currentQuest = e.questLogic;
+        currentlyHandledQuest = e.questLogic;
     }
 
     //Called by the UI Button
     public void AcceptQuestEventPublish()
     {
-        EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { questLogic = currentQuest});
+        EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { questLogic = currentlyHandledQuest});
+    }
+
+    public void AbandonQuestEventPublish()
+    {
+        EventBus<QuestAbandonEvent>.Raise(new QuestAbandonEvent() { questLogic = currentlyHandledQuest });
     }
 }

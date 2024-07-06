@@ -5,8 +5,9 @@ using UnityEngine;
 public class NPCActionQuestPanel : MonoBehaviour
 {
     [SerializeField] private GameObject gameObjectParentToEnable;
-    [SerializeField] private GameObject QuestPanel;
     [SerializeField] private GameObject questTextPrefab;
+    [SerializeField] private GameObject QuestPanel;
+    [SerializeField] private GameObject QuestPanelNoQuests;
 
     private List<QuestLogic> questsAlreadyAdded = new List<QuestLogic>();
 
@@ -32,6 +33,15 @@ public class NPCActionQuestPanel : MonoBehaviour
         if (e.selection == e.questGiver.transform)
         {
             gameObjectParentToEnable.SetActive(true);
+            if (e.questsCount == 0)
+            {
+                QuestPanel.SetActive(false);
+                QuestPanelNoQuests.SetActive(true);
+                return;
+            }
+            else
+                QuestPanelNoQuests.SetActive(false);
+                QuestPanel.SetActive(true);
             foreach (QuestLogic quest in e.questGiver.questLogics)
             {
                 if(questsAlreadyAdded.Contains(quest)) continue;

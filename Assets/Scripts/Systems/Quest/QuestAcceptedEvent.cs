@@ -26,3 +26,8 @@ public struct QuestInProgressPreviewEvent : IEvent
 {
     public QuestLogic questLogic;
 }
+
+public struct QuestAbandonEvent : IEvent
+{
+    public QuestLogic questLogic;
+}

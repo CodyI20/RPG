@@ -11,6 +11,7 @@ public class QuestGiver : MonoBehaviour
     [SerializeField] private float questGiverInteractionRadius = 1f;
 
     EventBinding<QuestAcceptedEvent> QuestAcceptedEventBinding;
+    EventBinding<QuestAbandonEvent> QuestAbandonEventBinding;
 
     private void Awake()
     {
@@ -26,11 +27,15 @@ public class QuestGiver : MonoBehaviour
     {
         QuestAcceptedEventBinding = new EventBinding<QuestAcceptedEvent>(HandleQuestAccepted);
         EventBus<QuestAcceptedEvent>.Register(QuestAcceptedEventBinding);
+
+        QuestAbandonEventBinding = new EventBinding<QuestAbandonEvent>(HandleQuestAbandoned);
+        EventBus<QuestAbandonEvent>.Register(QuestAbandonEventBinding);
         ObjectSelector.OnSelection += HandleSelection;
     }
     private void OnDisable()
     {
         EventBus<QuestAcceptedEvent>.Deregister(QuestAcceptedEventBinding);
+        EventBus<QuestAbandonEvent>.Deregister(QuestAbandonEventBinding);
         ObjectSelector.OnSelection -= HandleSelection;
     }
 
@@ -45,9 +50,16 @@ public class QuestGiver : MonoBehaviour
         }
     }
 
+    private void HandleQuestAbandoned(QuestAbandonEvent e)
+    {
+#if UNITY_EDITOR
+        Debug.Log("Abandoning quest: " + e.questLogic.quest.questName + "; Enqueueing...");
+#endif
+        questQueue.Enqueue(e.questLogic);
+    }
+
     private void HandleSelection(Transform selector, Transform selection)
     {
-        if(questQueue.Count == 0) return;
         if (selection == transform)
         {
             if (Vector3.Distance(selector.position, selection.position) <= questGiverInteractionRadius)
@@ -55,8 +67,7 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
-                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { selector = selector, selection = selection, questGiver = this });
-                //EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { questLogic = questQueue.Peek() });
+                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { selector = selector, selection = selection, questGiver = this, questsCount = questQueue.Count }) ;
             }
             else
             {
