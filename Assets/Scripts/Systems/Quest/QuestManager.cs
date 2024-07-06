@@ -4,19 +4,25 @@ using UnityUtils;
 
 public class QuestManager : Singleton<QuestManager>
 {
-    private List<QuestLogic> questLogic = new List<QuestLogic>();
+    [field: SerializeField] private List<QuestLogic> inProgressQuests = new List<QuestLogic>();
+
+    private List<QuestLogic> spawnedQuestLogics = new List<QuestLogic>();
 
     EventBinding<QuestAcceptedEvent> QuestAcceptedEventBinding;
+    EventBinding<QuestAbandonEvent> QuestAbandonEventBinding;
 
     private void OnEnable()
     {
         QuestAcceptedEventBinding = new EventBinding<QuestAcceptedEvent>(HandleQuestAccepted);
         EventBus<QuestAcceptedEvent>.Register(QuestAcceptedEventBinding);
+        QuestAbandonEventBinding = new EventBinding<QuestAbandonEvent>(HandleQuestAbandoned);
+        EventBus<QuestAbandonEvent>.Register(QuestAbandonEventBinding);
     }
 
     private void OnDisable()
     {
         EventBus<QuestAcceptedEvent>.Deregister(QuestAcceptedEventBinding);
+        EventBus<QuestAbandonEvent>.Deregister(QuestAbandonEventBinding);
     }
 
     private void HandleQuestAccepted(QuestAcceptedEvent e)
@@ -27,35 +33,64 @@ public class QuestManager : Singleton<QuestManager>
 #endif
     }
 
-    public void AddQuest(QuestLogic questLogic)
+    private void HandleQuestAbandoned(QuestAbandonEvent e)
     {
-        this.questLogic.Add(questLogic);
+        RemoveQuest(e.questLogic);
+#if UNITY_EDITOR
+        Debug.Log("Quest abandoned: " + e.questLogic);
+#endif
+    }
+
+    private void AddQuest(QuestLogic questLogic)
+    {
+        this.inProgressQuests.Add(questLogic);
 #if UNITY_EDITOR
         Debug.Log("Quest added: " + questLogic.quest.questName);
 #endif
-#if UNITY_EDITOR
-        Debug.Log("Quest added: " + questLogic.quest.questName);
-#endif
-        Instantiate(questLogic, transform);
+        QuestLogic spawnedQuestLogic = Instantiate(questLogic);
+        spawnedQuestLogics.Add(spawnedQuestLogic);
+    }
+
+    private void RemoveQuest(QuestLogic questLogic)
+    {
+        this.inProgressQuests.Remove(questLogic);
+        var foundQuestLogic = spawnedQuestLogics.Find(q => q.quest == questLogic.quest);
+
+        if (foundQuestLogic != null)
+        {
+            spawnedQuestLogics.Remove(foundQuestLogic);
+            Destroy(foundQuestLogic.gameObject);
+        }
     }
 
     public void CompleteQuest(QuestLogic questLogic)
     {
+        bool questFound = false;
+        foreach(var quest in inProgressQuests)
+        {
+            if (quest.quest.questHash == questLogic.quest.questHash)
+            {
+                questFound = true;
+            }
+        }
+        if(questFound == false)
+        {
+            return;
+        }
         EventBus<QuestCompletedEvent>.Raise(new QuestCompletedEvent { questLogic = questLogic });
 #if UNITY_EDITOR
         Debug.Log("Quest completed in the QuestManager: " + questLogic.quest.questName);
 #endif
-        this.questLogic.Remove(questLogic);
-        Destroy(questLogic.gameObject, 3f);// Adding a delay for debugging purposes
+        RemoveQuest(questLogic);
     }
 
     public bool IsQuestCompleted(QuestLogic questLogic)
     {
-        return !this.questLogic.Contains(questLogic);
+        return !this.inProgressQuests.Contains(questLogic);
     }
 
     public bool IsQuestCompleted(string questName)
     {
-        return questLogic.Find(q => q.quest.name == questName) == null;
+        return inProgressQuests.Find(q => q.quest.name == questName) == null;
     }
 }

@@ -1,23 +1,26 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuestGiver : MonoBehaviour
 {
     [SerializeField] QuestLogic[] quests;
-    private Queue<QuestLogic> questQueue = new Queue<QuestLogic>();
-    private Queue<QuestLogic> finishedQuestsQueue = new Queue<QuestLogic>();
+    private Queue<QuestLogic> availableQuestsQueue = new Queue<QuestLogic>();
+    private List<QuestLogic> inProgressQuestsList = new List<QuestLogic>();
+    private List<QuestLogic> finishedQuestsList = new List<QuestLogic>();
 
     [Header("Quest Giver Settings")]
     [SerializeField] private float questGiverInteractionRadius = 1f;
 
     EventBinding<QuestAcceptedEvent> QuestAcceptedEventBinding;
     EventBinding<QuestAbandonEvent> QuestAbandonEventBinding;
+    EventBinding<QuestCompletedEvent> QuestCompletedEventBinding;
 
     private void Awake()
     {
         foreach (QuestLogic quest in quests)
         {
-            questQueue.Enqueue(quest);
+            availableQuestsQueue.Enqueue(quest);
         }
     }
 
@@ -30,23 +33,28 @@ public class QuestGiver : MonoBehaviour
 
         QuestAbandonEventBinding = new EventBinding<QuestAbandonEvent>(HandleQuestAbandoned);
         EventBus<QuestAbandonEvent>.Register(QuestAbandonEventBinding);
+
+        QuestCompletedEventBinding = new EventBinding<QuestCompletedEvent>(HandleQuestCompleted);
+        EventBus<QuestCompletedEvent>.Register(QuestCompletedEventBinding);
         ObjectSelector.OnSelection += HandleSelection;
     }
     private void OnDisable()
     {
         EventBus<QuestAcceptedEvent>.Deregister(QuestAcceptedEventBinding);
         EventBus<QuestAbandonEvent>.Deregister(QuestAbandonEventBinding);
+        EventBus<QuestCompletedEvent>.Deregister(QuestCompletedEventBinding);
         ObjectSelector.OnSelection -= HandleSelection;
     }
 
     private void HandleQuestAccepted(QuestAcceptedEvent e)
     {
-        if (questQueue.Count > 0)
+        if (availableQuestsQueue.Count > 0)
         {
 #if UNITY_EDITOR
-            Debug.Log("Quest accepted: " + questQueue.Peek().quest.questName + "; Dequeueing...");
+            Debug.Log("Quest accepted: " + availableQuestsQueue.Peek().quest.questName + "; Dequeueing...");
 #endif
-            questQueue.Dequeue();
+            availableQuestsQueue.Dequeue();
+            inProgressQuestsList.Add(e.questLogic);
         }
     }
 
@@ -55,7 +63,17 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log("Abandoning quest: " + e.questLogic.quest.questName + "; Enqueueing...");
 #endif
-        questQueue.Enqueue(e.questLogic);
+        availableQuestsQueue.Enqueue(e.questLogic);
+        inProgressQuestsList.Remove(e.questLogic);
+    }
+
+    private void HandleQuestCompleted(QuestCompletedEvent e)
+    {
+#if UNITY_EDITOR
+        Debug.Log("Quest completed: " + e.questLogic.quest.questName + "; Enqueueing...");
+#endif
+        finishedQuestsList.Add(e.questLogic);
+        inProgressQuestsList.Remove(e.questLogic);
     }
 
     private void HandleSelection(Transform selector, Transform selection)
@@ -67,7 +85,15 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
-                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { selector = selector, selection = selection, questGiver = this, questsCount = questQueue.Count }) ;
+                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { 
+                    selector = selector, 
+                    selection = selection, 
+                    questGiver = this, 
+                    questsCount = availableQuestsQueue.Count + finishedQuestsList.Count + inProgressQuestsList.Count, 
+                    questsAvailable = availableQuestsQueue.ToList(),
+                    questsCompleted = finishedQuestsList,
+                    questsInProgress = inProgressQuestsList
+                });
             }
             else
             {

@@ -6,7 +6,7 @@ public class PressTQuest : QuestLogic
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            CompleteQuest();
+            CompleteQuest(this);
         }
     }
 }
