@@ -23,6 +23,7 @@ public class QuestUI : MonoBehaviour
     EventBinding<QuestPreviewEvent> QuestPreviewEventBinding;
     EventBinding<QuestInProgressPreviewEvent> QuestInProgressPreviewEventBinding;
 
+
     private void OnEnable()
     {
         QuestPreviewEventBinding = new EventBinding<QuestPreviewEvent>(HandleQuestPreview);

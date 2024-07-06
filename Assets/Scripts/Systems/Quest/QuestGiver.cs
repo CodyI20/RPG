@@ -5,6 +5,7 @@ public class QuestGiver : MonoBehaviour
 {
     [SerializeField] QuestLogic[] quests;
     private Queue<QuestLogic> questQueue = new Queue<QuestLogic>();
+    private Queue<QuestLogic> finishedQuestsQueue = new Queue<QuestLogic>();
 
     [Header("Quest Giver Settings")]
     [SerializeField] private float questGiverInteractionRadius = 1f;
@@ -18,6 +19,8 @@ public class QuestGiver : MonoBehaviour
             questQueue.Enqueue(quest);
         }
     }
+
+    public QuestLogic[] questLogics => quests;
 
     private void OnEnable()
     {
@@ -52,7 +55,8 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
-                EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { questLogic = questQueue.Peek() });
+                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { selector = selector, selection = selection, questGiver = this });
+                //EventBus<QuestPreviewEvent>.Raise(new QuestPreviewEvent { questLogic = questQueue.Peek() });
             }
             else
             {
