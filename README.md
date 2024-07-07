@@ -78,4 +78,5 @@ The sounds have been acquired from Wowhead:
 https://www.wowhead.com/sound=6019/orcmaleguardnpcfarewells
 https://www.wowhead.com/sound=6018/orcmaleguardnpcgreetings
 https://www.wowhead.com/sound=47598/mus-1-0-maintitle-original
+https://www.wowhead.com/sounds/user-interface/name:Quest
 
