@@ -72,6 +72,10 @@ Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame ico
 
 ![IconFrame](https://github.com/CodyI20/RPG/assets/125357154/a54596ff-ac7a-45d6-868b-811a1ae18292)
 
+X button: <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by HideMaru - Flaticon</a>
+![XButton](https://github.com/CodyI20/RPG/assets/125357154/1d7b8149-7aae-401e-9ec4-2c1abe7b24cf)
+
+
 *Sounds*:
 The sounds have been acquired from Wowhead:
 
