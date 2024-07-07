@@ -52,6 +52,14 @@ The house model and textures were acquired from Sketchfab: "Wooden Log Cabin" (h
 
 ![WoodenCabin](https://github.com/CodyI20/RPG/assets/125357154/14735367-b673-405c-a7b4-3992b6c38e5c)
 
+"Haystack 1" (https://skfb.ly/oNs9E) by Frice is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+![Haystack1](https://github.com/CodyI20/RPG/assets/125357154/4a785e94-b94f-4822-8ba5-4d17350029bc)
+
+"Haystack 2" (https://skfb.ly/oNsyz) by Frice is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+![Haystack2](https://github.com/CodyI20/RPG/assets/125357154/fb91a99e-e66c-4a9c-9d08-6987836d4f40)
+
 
 Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame icons">Frame icons created by See Icons - Flaticon</a>
 
