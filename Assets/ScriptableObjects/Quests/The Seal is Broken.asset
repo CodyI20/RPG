@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0295c66770ee05d4e882dfa429c2a88c, type: 3}
+  m_Name: The Seal is Broken
+  m_EditorClassIdentifier: 
+  questHash: -179727393
+  questName: The Seal is Broken
+  objective: Seal 12 Sha Fissures to banish the Sha of Doubt.
+  description: '<Cho looks at you in disbelief.>
+
+    I... I thought Sha of this
+    immensity were a myth - we all did. Just a story to keep our children from fighting.
+
+    No
+    time to talk now. Those fissures - they''re feeding it... it grows stronger by
+    the moment!
+
+    I must research the scrolls from my family archives. You, take
+    this cannon and ride Mishi.
+
+    You must find a way to contain this horror that
+    has been unleashed!'
+  shortObjective: Seal Sha Fissures
+  experienceReward: 3
+  goldReward: 5
+  itemReward: {fileID: 0}

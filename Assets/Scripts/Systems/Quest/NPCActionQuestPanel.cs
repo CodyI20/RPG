@@ -171,7 +171,7 @@ public class NPCActionQuestPanel : MonoBehaviour
 
     public void Deselect()
     {
-        EventBus<QuestPreviewExitEvent>.Raise(new QuestPreviewExitEvent());
+        EventBus<NPCExitInteractionEvent>.Raise(new NPCExitInteractionEvent());
         NPCAvailableQuestPanel.SetActive(false);
         NPCInProgressQuestsPanel.SetActive(false);
         QuestPanel.SetActive(false);

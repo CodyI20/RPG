@@ -11,3 +11,9 @@ public struct NPCInteractInRangeEvent : IEvent
     public List<QuestLogic> questsInProgress;
     public float interactionRadius;
 }
+
+public struct NPCExitInteractionEvent : IEvent {
+    public Transform selector;
+    public Transform selection;
+    public QuestGiver questGiver;
+}

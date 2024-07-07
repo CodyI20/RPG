@@ -87,7 +87,6 @@ public class QuestSoundManager : MonoBehaviour
 
     private void PlayClip(AudioClip clip)
     {
-        audioSource.clip = clip;
-        audioSource.Play();
+        audioSource.PlayOneShot(clip, audioSource.volume);
     }
 }

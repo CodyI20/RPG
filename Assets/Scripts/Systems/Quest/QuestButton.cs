@@ -7,7 +7,6 @@ public class QuestButton : MonoBehaviour
     [HideInInspector] public QuestLogic questLogic;
     private Button button;
 
-    EventBinding<QuestAbandonEvent> abandonEvent;
     EventBinding<QuestTurnedInEvent> turnInEvent;
 
     private void Awake()
@@ -19,8 +18,6 @@ public class QuestButton : MonoBehaviour
 
     private void OnEnable()
     {
-        abandonEvent = new EventBinding<QuestAbandonEvent>(HandleQuestAbandon);
-        EventBus<QuestAbandonEvent>.Register(abandonEvent);
         button.onClick.AddListener(OnButtonClicked);
     }
 
@@ -31,16 +28,7 @@ public class QuestButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventBus<QuestAbandonEvent>.Deregister(abandonEvent);
         EventBus<QuestTurnedInEvent>.Deregister(turnInEvent);
-    }
-
-    private void HandleQuestAbandon(QuestAbandonEvent e)
-    {
-        if (e.questLogic == questLogic)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void HandleQuestTurnedIn(QuestTurnedInEvent e)

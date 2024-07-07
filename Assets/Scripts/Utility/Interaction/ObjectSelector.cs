@@ -24,6 +24,7 @@ public class ObjectSelector : MonoBehaviour
 
     EventBinding<QuestInProgressPreviewEvent> QuestInProgressPreviewEvent;
     EventBinding<QuestPreviewExitEvent> QuestPreviewExitEvent;
+    EventBinding<NPCExitInteractionEvent> NPCExitInteractionEvent;
 
     private void OnEnable()
     {
@@ -31,11 +32,14 @@ public class ObjectSelector : MonoBehaviour
         EventBus<QuestInProgressPreviewEvent>.Register(QuestInProgressPreviewEvent);
         QuestPreviewExitEvent = new EventBinding<QuestPreviewExitEvent>(HandleQuestPreviewExit);
         EventBus<QuestPreviewExitEvent>.Register(QuestPreviewExitEvent);
+        NPCExitInteractionEvent = new EventBinding<NPCExitInteractionEvent>(HandleNPCExitInteraction);
+        EventBus<NPCExitInteractionEvent>.Register(NPCExitInteractionEvent);
     }
     private void OnDisable()
     {
         EventBus<QuestInProgressPreviewEvent>.Deregister(QuestInProgressPreviewEvent);
         EventBus<QuestPreviewExitEvent>.Deregister(QuestPreviewExitEvent);
+        EventBus<NPCExitInteractionEvent>.Deregister(NPCExitInteractionEvent);
     }
 
     private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
@@ -44,6 +48,11 @@ public class ObjectSelector : MonoBehaviour
     }
     
     private void HandleQuestPreviewExit(QuestPreviewExitEvent e)
+    {
+        Deselect();
+    }
+
+    private void HandleNPCExitInteraction(NPCExitInteractionEvent e)
     {
         Deselect();
     }
