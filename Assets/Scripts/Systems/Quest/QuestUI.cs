@@ -63,8 +63,9 @@ public class QuestUI : MonoBehaviour
             Deselect();
     }
 
-    private void Deselect()
+    public void Deselect()
     {
+        EventBus<QuestPreviewExitEvent>.Raise(new QuestPreviewExitEvent());
         questInProgressPanel.SetActive(false);
     }
 }

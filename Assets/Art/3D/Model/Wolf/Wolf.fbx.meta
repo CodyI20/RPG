@@ -3,7 +3,37 @@ guid: 8220c41ac2816b74eb2f05add8666b53
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material__wolf_col_tga
+    second: {fileID: 2100000, guid: 793600f9080131d4abb7d1e166186acd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: claws
+    second: {fileID: 2100000, guid: e7b9f57589c4f204189fdf612a0a0a03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyes
+    second: {fileID: 2100000, guid: 70709a21fa4df10498bcbb3e6c34aab9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fur__fella3_jpg_001
+    second: {fileID: 2100000, guid: 135f79bad5e5f564f91894b7aeb95af1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: teeth__nor2_tga
+    second: {fileID: 2100000, guid: 19a701e99f557a14ba1f31bdf2c65d9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: unnamed
+    second: {fileID: 2100000, guid: 3c6991be0deaba847bd3feb3e709695a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

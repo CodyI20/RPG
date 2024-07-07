@@ -23,18 +23,27 @@ public class ObjectSelector : MonoBehaviour
     private RaycastHit raycastHit;
 
     EventBinding<QuestInProgressPreviewEvent> QuestInProgressPreviewEvent;
+    EventBinding<QuestPreviewExitEvent> QuestPreviewExitEvent;
 
     private void OnEnable()
     {
         QuestInProgressPreviewEvent = new EventBinding<QuestInProgressPreviewEvent>(HandleQuestInProgressPreview);
         EventBus<QuestInProgressPreviewEvent>.Register(QuestInProgressPreviewEvent);
+        QuestPreviewExitEvent = new EventBinding<QuestPreviewExitEvent>(HandleQuestPreviewExit);
+        EventBus<QuestPreviewExitEvent>.Register(QuestPreviewExitEvent);
     }
     private void OnDisable()
     {
         EventBus<QuestInProgressPreviewEvent>.Deregister(QuestInProgressPreviewEvent);
+        EventBus<QuestPreviewExitEvent>.Deregister(QuestPreviewExitEvent);
     }
 
     private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
+    {
+        Deselect();
+    }
+    
+    private void HandleQuestPreviewExit(QuestPreviewExitEvent e)
     {
         Deselect();
     }

@@ -36,3 +36,7 @@ public struct QuestTurnedInEvent : IEvent
 {
     public QuestLogic questLogic;
 }
+
+public struct QuestPreviewExitEvent : IEvent
+{
+}

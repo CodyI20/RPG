@@ -136,9 +136,11 @@ public class NPCActionQuestPanel : MonoBehaviour
     }
 
     //Called by the UI Button
-    public void AcceptQuestEventPublish()
+    public void AcceptQuestActions()
     {
         questsAccepted.Add(currentlyHandledQuest.quest);
+        NPCAvailableQuestPanel.SetActive(false);
+        QuestPanel.SetActive(true);
         EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { questLogic = currentlyHandledQuest });
     }
 
@@ -167,8 +169,9 @@ public class NPCActionQuestPanel : MonoBehaviour
         }
     }
 
-    private void Deselect()
+    public void Deselect()
     {
+        EventBus<QuestPreviewExitEvent>.Raise(new QuestPreviewExitEvent());
         NPCAvailableQuestPanel.SetActive(false);
         NPCInProgressQuestsPanel.SetActive(false);
         QuestPanel.SetActive(false);
