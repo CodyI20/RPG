@@ -75,6 +75,10 @@ Icon frame: <a href="https://www.flaticon.com/free-icons/frame" title="frame ico
 X button: <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by HideMaru - Flaticon</a>
 ![XButton](https://github.com/CodyI20/RPG/assets/125357154/1d7b8149-7aae-401e-9ec4-2c1abe7b24cf)
 
+Quest background: https://www.wowhead.com/news/new-quest-background-added-may-hint-at-future-story-334303
+
+![QuestBackground](https://github.com/CodyI20/RPG/assets/125357154/f65cb421-c1f1-450f-9c3d-1e9414ad1eea)
+
 
 *Sounds*:
 The sounds have been acquired from Wowhead:
