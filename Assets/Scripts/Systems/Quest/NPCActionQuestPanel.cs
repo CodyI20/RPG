@@ -24,13 +24,15 @@ public class NPCActionQuestPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI availableQuestObjective;
 
     private List<QuestLogic> questsAlreadyAdded = new List<QuestLogic>();
-    private List<QuestLogic> questsAccepted = new List<QuestLogic>();
+    private List<Quest> questsAccepted = new List<Quest>();
+    private List<Quest> completedQuests = new List<Quest>();
     private QuestLogic currentlyHandledQuest;
 
     EventBinding<NPCInteractInRangeEvent> InteractInRangeEvent;
     EventBinding<QuestPreviewEvent> PreviewEvent;
     EventBinding<QuestAbandonEvent> AbandonEvent;
     EventBinding<QuestCompletedEvent> CompletedEvent;
+    EventBinding<QuestInProgressPreviewEvent> InProgressPreviewEvent;
 
     private void OnEnable()
     {
@@ -42,6 +44,8 @@ public class NPCActionQuestPanel : MonoBehaviour
         EventBus<QuestAbandonEvent>.Register(AbandonEvent);
         CompletedEvent = new EventBinding<QuestCompletedEvent>(HandleQuestComplete);
         EventBus<QuestCompletedEvent>.Register(CompletedEvent);
+        InProgressPreviewEvent = new EventBinding<QuestInProgressPreviewEvent>(HandleQuestInProgressPreview);
+        EventBus<QuestInProgressPreviewEvent>.Register(InProgressPreviewEvent);
     }
     private void OnDisable()
     {
@@ -49,6 +53,7 @@ public class NPCActionQuestPanel : MonoBehaviour
         EventBus<QuestPreviewEvent>.Deregister(PreviewEvent);
         EventBus<QuestAbandonEvent>.Deregister(AbandonEvent);
         EventBus<QuestCompletedEvent>.Deregister(CompletedEvent);
+        EventBus<QuestInProgressPreviewEvent>.Deregister(InProgressPreviewEvent);
     }
 
     private void HandleInteractInRange(NPCInteractInRangeEvent e)
@@ -84,13 +89,14 @@ public class NPCActionQuestPanel : MonoBehaviour
         gameObjectParentToEnable.SetActive(true);
         QuestPanel.SetActive(false);
         QuestPanelNoQuests.SetActive(false);
-        if (questsAccepted.Contains(e.questLogic))
+        if (questsAccepted.Contains(e.questLogic.quest))
         {
             NPCAvailableQuestPanel.SetActive(false);
             NPCInProgressQuestsPanel.SetActive(true);
             titleText.text = e.questLogic.quest.questName;
             descriptionText.text = e.questLogic.quest.description;
             objectiveText.text = e.questLogic.quest.objective;
+            completeQuestButton.interactable = completedQuests.Contains(e.questLogic.quest);
         }
         else
         {
@@ -105,32 +111,68 @@ public class NPCActionQuestPanel : MonoBehaviour
 
     private void HandleQuestAbandon(QuestAbandonEvent e)
     {
-        if (questsAccepted.Contains(e.questLogic))
+        if (questsAccepted.Contains(e.questLogic.quest))
         {
-            completeQuestButton.interactable = false;
-            questsAccepted.Remove(e.questLogic);
+            completedQuests.Remove(e.questLogic.quest);
+            questsAccepted.Remove(e.questLogic.quest);
             gameObjectParentToEnable.SetActive(false);
         }
     }
 
     private void HandleQuestComplete(QuestCompletedEvent e)
     {
-        if (questsAccepted.Contains(e.questLogic))
+#if UNITY_EDITOR
+        Debug.Log("NPCActionQuestPanel: Quest completed: " + e.questLogic.quest.questName);
+#endif
+        if (currentlyHandledQuest.quest.questHash == e.questLogic.quest.questHash)
         {
-            completeQuestButton.interactable = true;
+            completedQuests.Add(e.questLogic.quest);
         }
+    }
+
+    private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
+    {
+        Deselect();
     }
 
     //Called by the UI Button
     public void AcceptQuestEventPublish()
     {
-        questsAccepted.Add(currentlyHandledQuest);
+        questsAccepted.Add(currentlyHandledQuest.quest);
         EventBus<QuestAcceptedEvent>.Raise(new QuestAcceptedEvent() { questLogic = currentlyHandledQuest });
     }
 
     public void CompleteQuestActions()
     {
-        questsAccepted.Remove(currentlyHandledQuest);
+#if UNITY_EDITOR
+        Debug.Log("NPCActionQuestPanel: Quest turned in: " + currentlyHandledQuest.quest.questName);
+#endif
+        EventBus<QuestTurnedInEvent>.Raise(new QuestTurnedInEvent() { questLogic = currentlyHandledQuest });
+        questsAccepted.Remove(currentlyHandledQuest.quest);
+        gameObjectParentToEnable.SetActive(false);
+    }
+
+    private void Update()
+    {
+        TryDeselect();
+    }
+
+    //POLISH
+
+    private void TryDeselect()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Deselect();
+        }
+    }
+
+    private void Deselect()
+    {
+        NPCAvailableQuestPanel.SetActive(false);
+        NPCInProgressQuestsPanel.SetActive(false);
+        QuestPanel.SetActive(false);
+        QuestPanelNoQuests.SetActive(false);
         gameObjectParentToEnable.SetActive(false);
     }
 }

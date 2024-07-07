@@ -14,16 +14,20 @@ public class QuestUI : MonoBehaviour
 
 
     EventBinding<QuestInProgressPreviewEvent> QuestInProgressPreviewEventBinding;
+    EventBinding<NPCInteractInRangeEvent> NPCInteractInRangeEventBinding;
 
 
     private void OnEnable()
     {
         QuestInProgressPreviewEventBinding = new EventBinding<QuestInProgressPreviewEvent>(HandleQuestInProgressPreview);
         EventBus<QuestInProgressPreviewEvent>.Register(QuestInProgressPreviewEventBinding);
+        NPCInteractInRangeEventBinding = new EventBinding<NPCInteractInRangeEvent>(HandleInteractInRange);
+        EventBus<NPCInteractInRangeEvent>.Register(NPCInteractInRangeEventBinding);
     }
     private void OnDisable()
     {
         EventBus<QuestInProgressPreviewEvent>.Deregister(QuestInProgressPreviewEventBinding);
+        EventBus<NPCInteractInRangeEvent>.Deregister(NPCInteractInRangeEventBinding);
     }
 
     private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
@@ -35,9 +39,32 @@ public class QuestUI : MonoBehaviour
         currentlyHandledQuest = e.questLogic;
     }
 
+    private void HandleInteractInRange(NPCInteractInRangeEvent e)
+    {
+        Deselect();
+    }
+
     // Called by the UI button
     public void AbandonQuestEventPublish()
     {
         EventBus<QuestAbandonEvent>.Raise(new QuestAbandonEvent() { questLogic = currentlyHandledQuest });
+    }
+
+    private void Update()
+    {
+        TryDeselect();
+    }
+
+    // POLISH
+
+    private void TryDeselect()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Deselect();
+    }
+
+    private void Deselect()
+    {
+        questInProgressPanel.SetActive(false);
     }
 }

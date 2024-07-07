@@ -4,12 +4,13 @@ using UnityUtils;
 
 public class QuestManager : Singleton<QuestManager>
 {
-    [field: SerializeField] private List<QuestLogic> inProgressQuests = new List<QuestLogic>();
+    private List<QuestLogic> inProgressQuests = new List<QuestLogic>();
 
     private List<QuestLogic> spawnedQuestLogics = new List<QuestLogic>();
 
     EventBinding<QuestAcceptedEvent> QuestAcceptedEventBinding;
     EventBinding<QuestAbandonEvent> QuestAbandonEventBinding;
+    EventBinding<QuestTurnedInEvent> QuestTurnedInEventBinding;
 
     private void OnEnable()
     {
@@ -17,12 +18,15 @@ public class QuestManager : Singleton<QuestManager>
         EventBus<QuestAcceptedEvent>.Register(QuestAcceptedEventBinding);
         QuestAbandonEventBinding = new EventBinding<QuestAbandonEvent>(HandleQuestAbandoned);
         EventBus<QuestAbandonEvent>.Register(QuestAbandonEventBinding);
+        QuestTurnedInEventBinding = new EventBinding<QuestTurnedInEvent>(HandleQuestTurnIn);
+        EventBus<QuestTurnedInEvent>.Register(QuestTurnedInEventBinding);
     }
 
     private void OnDisable()
     {
         EventBus<QuestAcceptedEvent>.Deregister(QuestAcceptedEventBinding);
         EventBus<QuestAbandonEvent>.Deregister(QuestAbandonEventBinding);
+        EventBus<QuestTurnedInEvent>.Deregister(QuestTurnedInEventBinding);
     }
 
     private void HandleQuestAccepted(QuestAcceptedEvent e)
@@ -39,6 +43,11 @@ public class QuestManager : Singleton<QuestManager>
 #if UNITY_EDITOR
         Debug.Log("Quest abandoned: " + e.questLogic);
 #endif
+    }
+
+    private void HandleQuestTurnIn(QuestTurnedInEvent e)
+    {
+        RemoveQuest(e.questLogic);
     }
 
     private void AddQuest(QuestLogic questLogic)
@@ -71,6 +80,7 @@ public class QuestManager : Singleton<QuestManager>
             if (quest.quest.questHash == questLogic.quest.questHash)
             {
                 questFound = true;
+                break;
             }
         }
         if(questFound == false)

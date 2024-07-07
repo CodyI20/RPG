@@ -7,7 +7,7 @@ public struct NPCInteractInRangeEvent : IEvent
     public QuestGiver questGiver;
     public int questsCount;
     public List<QuestLogic> questsAvailable;
-    public List<QuestLogic> questsCompleted;
+    public List<Quest> questsCompleted;
     public List<QuestLogic> questsInProgress;
     public float interactionRadius;
 }

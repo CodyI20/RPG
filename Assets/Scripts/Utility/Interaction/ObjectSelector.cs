@@ -22,6 +22,23 @@ public class ObjectSelector : MonoBehaviour
     private Transform selection;
     private RaycastHit raycastHit;
 
+    EventBinding<QuestInProgressPreviewEvent> QuestInProgressPreviewEvent;
+
+    private void OnEnable()
+    {
+        QuestInProgressPreviewEvent = new EventBinding<QuestInProgressPreviewEvent>(HandleQuestInProgressPreview);
+        EventBus<QuestInProgressPreviewEvent>.Register(QuestInProgressPreviewEvent);
+    }
+    private void OnDisable()
+    {
+        EventBus<QuestInProgressPreviewEvent>.Deregister(QuestInProgressPreviewEvent);
+    }
+
+    private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
+    {
+        Deselect();
+    }
+
     void Update()
     {
         if (!Cursor.visible) return;
@@ -83,10 +100,16 @@ public class ObjectSelector : MonoBehaviour
             }
         }
 
-        if (selection != null && Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Deselect();
+    }
+
+    private void Deselect()
+    {
+        if (selection != null)
         {
             var outline = selection.GetComponent<Outline>();
-            if (outline != null){ outline.enabled = false; OnDeselection?.Invoke(transform, selection); }
+            if (outline != null) { outline.enabled = false; OnDeselection?.Invoke(transform, selection); }
             selection = null;
         }
     }

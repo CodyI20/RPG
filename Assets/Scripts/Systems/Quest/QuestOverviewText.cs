@@ -13,6 +13,8 @@ public class QuestOverviewText : MonoBehaviour
 
     EventBinding<QuestAbandonEvent> questAbandonBinding;
 
+    EventBinding<QuestTurnedInEvent> questTurnedInBinding;
+
     private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
@@ -27,6 +29,9 @@ public class QuestOverviewText : MonoBehaviour
 
         questAbandonBinding = new EventBinding<QuestAbandonEvent>(HandleQuestAbandoned);
         EventBus<QuestAbandonEvent>.Register(questAbandonBinding);
+
+        questTurnedInBinding = new EventBinding<QuestTurnedInEvent>(HandleQuestTurnedIn);
+        EventBus<QuestTurnedInEvent>.Register(questTurnedInBinding);
     }
 
     private void OnDestroy()
@@ -34,6 +39,7 @@ public class QuestOverviewText : MonoBehaviour
         button.onClick.RemoveListener(FireQuestPreviewEvent);
         EventBus<QuestCompletedEvent>.Deregister(questCompletedBinding);
         EventBus<QuestAbandonEvent>.Deregister(questAbandonBinding);
+        EventBus<QuestTurnedInEvent>.Deregister(questTurnedInBinding);
     }
 
     private void HandleQuestCompleted(QuestCompletedEvent e)
@@ -45,6 +51,14 @@ public class QuestOverviewText : MonoBehaviour
     }
 
     private void HandleQuestAbandoned(QuestAbandonEvent e)
+    {
+        if (e.questLogic == questLogic)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void HandleQuestTurnedIn(QuestTurnedInEvent e)
     {
         if (e.questLogic == questLogic)
         {
