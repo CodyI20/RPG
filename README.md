@@ -26,6 +26,13 @@ Tutorial: - https://www.youtube.com/watch?v=vMd5GnP5c8o&list=PLGHeZfzv8qXf0eNb-6
 
 ![Wolf](https://github.com/CodyI20/RPG/assets/125357154/0b9972b4-b1ea-4a35-b0e0-f0aeb4b746d1)
 
+Eagle model, textures and animations: https://assetstore.unity.com/packages/3d/characters/animals/birds/egypt-pack-eagle-140079
+![eagle](https://github.com/CodyI20/RPG/assets/125357154/bfa07c64-908e-406f-a6f9-9ae725d0a707)
+
+Bear model, textures and animations: https://assetstore.unity.com/packages/3d/characters/animals/free-stylized-bear-rpg-forest-animal-228910
+![bear](https://github.com/CodyI20/RPG/assets/125357154/1e812a07-7d47-4f33-adc1-b06a128b7abb)
+
+
 Player model and animations were all aquired from Mixamo: https://www.mixamo.com/#/?page=1&query=Walk+backwards&type=Motion%2CMotionPack
 
 ![NecromancerModel](https://github.com/CodyI20/RPG/assets/125357154/644dc3ab-c8fc-4389-b153-ffb5b8bf8d64)
