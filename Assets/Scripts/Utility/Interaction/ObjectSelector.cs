@@ -19,8 +19,6 @@ public class ObjectSelector : MonoBehaviour
     [SerializeField] private Color outlineColor = Color.white;
     [SerializeField, Range(0, 10)] private float outlineWidth = 2.0f;
 
-    private float currentNPCInteractionRadius = 0f;
-
 
     private Transform highlight;
     private Transform selection;
@@ -30,7 +28,6 @@ public class ObjectSelector : MonoBehaviour
     EventBinding<QuestPreviewExitEvent> QuestPreviewExitEvent;
     EventBinding<NPCExitInteractionEvent> NPCExitInteractionEvent;
     EventBinding<NPCInteractOutOfRangeEvent> OutOfRangeQuestGrabBinding;
-    EventBinding<NPCInteractInRangeEvent> NPCInteractInRangeBinding;
 
     private void OnEnable()
     {
@@ -40,10 +37,8 @@ public class ObjectSelector : MonoBehaviour
         EventBus<QuestPreviewExitEvent>.Register(QuestPreviewExitEvent);
         NPCExitInteractionEvent = new EventBinding<NPCExitInteractionEvent>(DeselectSingletonEvent);
         EventBus<NPCExitInteractionEvent>.Register(NPCExitInteractionEvent);
-        OutOfRangeQuestGrabBinding = new EventBinding<NPCInteractOutOfRangeEvent>(HandleOutOfRangeQuestGrab);
+        OutOfRangeQuestGrabBinding = new EventBinding<NPCInteractOutOfRangeEvent>(HandleOutOfRangeInteract);
         EventBus<NPCInteractOutOfRangeEvent>.Register(OutOfRangeQuestGrabBinding);
-        NPCInteractInRangeBinding = new EventBinding<NPCInteractInRangeEvent>(HandleNPCInteract);
-        EventBus<NPCInteractInRangeEvent>.Register(NPCInteractInRangeBinding);
     }
     private void OnDisable()
     {
@@ -51,17 +46,6 @@ public class ObjectSelector : MonoBehaviour
         EventBus<QuestPreviewExitEvent>.Deregister(QuestPreviewExitEvent);
         EventBus<NPCExitInteractionEvent>.Deregister(NPCExitInteractionEvent);
         EventBus<NPCInteractOutOfRangeEvent>.Deregister(OutOfRangeQuestGrabBinding);
-        EventBus<NPCInteractInRangeEvent>.Deregister(NPCInteractInRangeBinding);
-    }
-
-    private void HandleOutOfRangeQuestGrab(NPCInteractOutOfRangeEvent e)
-    {
-        currentNPCInteractionRadius = e.interactionRadius;
-    }
-
-    private void HandleNPCInteract(NPCInteractInRangeEvent e)
-    {
-        currentNPCInteractionRadius = e.interactionRadius;
     }
 
     void Update()
@@ -132,32 +116,23 @@ public class ObjectSelector : MonoBehaviour
         if(selection == null) return;
         if (Input.GetKeyDown(KeyCode.Escape))
             DeselectSingletonEvent();
-        DeselectEventBus();
     }
 
     private void DeselectSingletonEvent()
     {
         if (selection != null)
         {
-            if(Vector3.Distance(selection.position, transform.position) > currentNPCInteractionRadius)
-            {
-                EventBus<NPCExitInteractionOutOfRangeEvent>.Raise(new NPCExitInteractionOutOfRangeEvent
-                {
-                    selection = selection,
-                    selector = transform,
-                });
-            }
             var outline = selection.GetComponent<Outline>();
             if (outline != null) { outline.enabled = false; OnDeselection?.Invoke(transform, selection); }
             selection = null;
         }
     }
 
-    private void DeselectEventBus()
+    private void HandleOutOfRangeInteract(NPCInteractOutOfRangeEvent e)
     {
         if (selection != null)
         {
-            if (Vector3.Distance(selection.position, transform.position) > currentNPCInteractionRadius)
+            if (Vector3.Distance(selection.position, transform.position) > e.interactionRadius)
             {
                 EventBus<NPCExitInteractionOutOfRangeEvent>.Raise(new NPCExitInteractionOutOfRangeEvent
                 {
