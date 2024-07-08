@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 238460764321246484}
   - component: {fileID: -6879618572612365861}
   m_Layer: 0
-  m_Name: PressTQuest
+  m_Name: KillTheBearQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

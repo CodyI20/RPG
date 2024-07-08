@@ -68,9 +68,9 @@ public abstract class NPCAnimationManager : MonoBehaviour
     #region Death
     private void HandleDeathEvent(NPCDeathEvent e)
     {
-        if (e.npcStats.gameObject != gameObject) return;
+        if (e.npcObject.gameObject != gameObject) return;
 #if UNITY_EDITOR
-        Debug.Log($"{e.npcStats.gameObject} is the same as {gameObject}! Horraaay!");
+        Debug.Log($"{e.npcObject.gameObject} is the same as {gameObject}! Horraaay!");
 #endif
         HandleDeathAnimation();
     }

@@ -43,7 +43,7 @@ public struct NPCExitInteractionOutOfRangeEvent : IEvent
 
 public struct NPCDeathEvent : IEvent
 {
-    public NPCStats npcStats;
+    public GameObject npcObject;
 }
 
 public struct NPCEvadeFinishedEvent : IEvent
@@ -72,6 +72,11 @@ public struct NPCIdleEvent : IEvent
 }
 
 public struct NPCEvasionEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCTriggerCombatEvent : IEvent
 {
     public GameObject npcObject;
 }

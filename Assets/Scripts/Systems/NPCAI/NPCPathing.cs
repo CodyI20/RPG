@@ -30,6 +30,7 @@ public class NPCPathing : MonoBehaviour
     private bool IsAlive = true;
 
     EventBinding<NPCDeathEvent> npcDeathEventBinding;
+    EventBinding<NPCTriggerCombatEvent> npcTriggerCombatBinding;
 
     private void Awake()
     {
@@ -60,21 +61,30 @@ public class NPCPathing : MonoBehaviour
         PlayerStats.Instance.OnPlayerDeath += HandlePlayerDeath;
         npcDeathEventBinding = new EventBinding<NPCDeathEvent>(HandleNPCDeath);
         EventBus<NPCDeathEvent>.Register(npcDeathEventBinding);
+        npcTriggerCombatBinding = new EventBinding<NPCTriggerCombatEvent>(HandleNPCTriggerCombat);
+        EventBus<NPCTriggerCombatEvent>.Register(npcTriggerCombatBinding);
     }
 
     private void OnDisable()
     {
         PlayerStats.Instance.OnPlayerDeath -= HandlePlayerDeath;
         EventBus<NPCDeathEvent>.Deregister(npcDeathEventBinding);
+        EventBus<NPCTriggerCombatEvent>.Deregister(npcTriggerCombatBinding);
         if (areaDetectionPoint != null)
         {
             Destroy(areaDetectionPoint);
         }
     }
 
+    private void HandleNPCTriggerCombat(NPCTriggerCombatEvent e)
+    {
+        if (e.npcObject != gameObject) return;
+        PlayerInRangeActions();
+    }
+
     private void HandleNPCDeath(NPCDeathEvent e)
     {
-        if (e.npcStats != this) return;
+        if (e.npcObject != gameObject) return;
         IsAlive = false;
     }
 
@@ -95,9 +105,25 @@ public class NPCPathing : MonoBehaviour
 
     private void Update()
     {
-        if (!IsAlive) return;
+        CheckForHealthStatus();
         CheckForLogicOutput();
         HandleDestinationReached();
+    }
+
+    private void PlayerInRangeActions()
+    {
+        playerInRange = true;
+        positionBeforeChaseBegan = transform.position;
+    }
+
+    private void CheckForHealthStatus()
+    {
+        if (!IsAlive)
+        {
+            playerInRange = false;
+            agent.ResetPath();
+            agent.isStopped = true;
+        }
     }
 
     private void CheckForLogicOutput()
@@ -119,8 +145,7 @@ public class NPCPathing : MonoBehaviour
         {
             if (!playerInRange)
             {
-                playerInRange = true;
-                positionBeforeChaseBegan = transform.position;
+                PlayerInRangeActions();
             }
         }
         else if (IsPlayerOutOfRange())
@@ -171,11 +196,21 @@ public class NPCPathing : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (areaDetectionPoint == null) return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(areaDetectionPoint.transform.position, detectionArea);
+        if (areaDetectionPoint == null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionArea);
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(areaDetectionPoint.transform.position, stopChaseArea);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, stopChaseArea);
+        }
+        else
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(areaDetectionPoint.transform.position, detectionArea);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(areaDetectionPoint.transform.position, stopChaseArea);
+        }
     }
 }

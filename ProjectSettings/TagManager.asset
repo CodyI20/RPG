@@ -9,6 +9,7 @@ TagManager:
   - ScreenCamera
   - cockpit_capitalLaser
   - Outlineable
+  - HostileNPC
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - MainCameraOnly
   - 
   - SmallProps
-  - 
+  - HostileNPC
   - 
   - 
   - 

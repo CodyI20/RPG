@@ -38,6 +38,7 @@ public class NPCStats : MonoBehaviour
     {
         if(isEvading) return;
         currentHealth -= damage;
+        EventBus<NPCTriggerCombatEvent>.Raise(new NPCTriggerCombatEvent() { npcObject = gameObject });
         if (currentHealth <= 0)
         {
             Die();
@@ -59,7 +60,7 @@ public class NPCStats : MonoBehaviour
 
     private void Die()
     {
-        EventBus<NPCDeathEvent>.Raise(new NPCDeathEvent() { npcStats = this });
+        EventBus<NPCDeathEvent>.Raise(new NPCDeathEvent() { npcObject = gameObject });
         Destroy(gameObject, timeToDestroy);
     }
 }
