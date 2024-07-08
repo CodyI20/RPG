@@ -14,15 +14,22 @@ public class NPCPathing : MonoBehaviour
     [SerializeField, Tooltip("This is the area the target has to get out of for the chase to stop")] private float stopChaseArea = 10f;
     [SerializeField, Tooltip("The distance the NPC will stop from the player")] private float stoppingDistance = 2f;
 
+    public float StoppingDistance => stoppingDistance;
+
     [Space(5)]
     [Header("Other settings")]
     [SerializeField, Range(0, 50f)] private float agentSpeed = 5f;
 
     private bool playerInRange = false;
+    private bool playerDead = false;
     private Vector3 positionBeforeChaseBegan;
     private bool isEvading = false;
 
     private GameObject areaDetectionPoint;
+
+    private bool IsAlive = true;
+
+    EventBinding<NPCDeathEvent> npcDeathEventBinding;
 
     private void Awake()
     {
@@ -48,6 +55,34 @@ public class NPCPathing : MonoBehaviour
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    private void OnEnable()
+    {
+        PlayerStats.Instance.OnPlayerDeath += HandlePlayerDeath;
+        npcDeathEventBinding = new EventBinding<NPCDeathEvent>(HandleNPCDeath);
+        EventBus<NPCDeathEvent>.Register(npcDeathEventBinding);
+    }
+
+    private void OnDisable()
+    {
+        PlayerStats.Instance.OnPlayerDeath -= HandlePlayerDeath;
+        EventBus<NPCDeathEvent>.Deregister(npcDeathEventBinding);
+        if (areaDetectionPoint != null)
+        {
+            Destroy(areaDetectionPoint);
+        }
+    }
+
+    private void HandleNPCDeath(NPCDeathEvent e)
+    {
+        if (e.npcStats != this) return;
+        IsAlive = false;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        playerDead = true;
+    }
+
     private bool PlayerGotInRange()
     {
         return Vector3.Distance(areaDetectionPoint.transform.position, playerTarget.position) <= detectionArea;
@@ -60,6 +95,7 @@ public class NPCPathing : MonoBehaviour
 
     private void Update()
     {
+        if (!IsAlive) return;
         CheckForLogicOutput();
         HandleDestinationReached();
     }
@@ -67,6 +103,12 @@ public class NPCPathing : MonoBehaviour
     private void CheckForLogicOutput()
     {
         if (isEvading) return;
+
+        if (playerDead)
+        {
+            ReturnToInitialPosition();
+            return;
+        }
 
         if (playerInRange)
         {
@@ -91,28 +133,39 @@ public class NPCPathing : MonoBehaviour
         }
     }
 
+    private void MoveAI(Vector3 destination)
+    {
+        EventBus<NPCRunEvent>.Raise(new NPCRunEvent() { npcObject = gameObject });
+        agent.SetDestination(destination);
+    }
+
     private void FollowPlayer()
     {
-        agent.SetDestination(playerTarget.position);
+        MoveAI(playerTarget.position);
     }
 
     private void ReturnToInitialPosition()
     {
         isEvading = true;
-        agent.SetDestination(positionBeforeChaseBegan);
+        MoveAI(positionBeforeChaseBegan);
     }
 
     private bool HasReachedDestination()
     {
-        return !agent.pathPending && agent.remainingDistance <= 0.05f;
+        return !agent.pathPending && agent.remainingDistance <= stoppingDistance;
     }
 
     private void HandleDestinationReached()
     {
-        if (isEvading && HasReachedDestination())
+        if (HasReachedDestination())
         {
-            isEvading = false;
-            areaDetectionPoint.transform.position = transform.position;
+            if (isEvading)
+            {
+                isEvading = false;
+                EventBus<NPCEvadeFinishedEvent>.Raise(new NPCEvadeFinishedEvent() { npcObject = gameObject });
+                areaDetectionPoint.transform.position = transform.position;
+            }
+            EventBus<NPCIdleEvent>.Raise(new NPCIdleEvent() { npcObject = gameObject });
         }
     }
 
@@ -124,13 +177,5 @@ public class NPCPathing : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(areaDetectionPoint.transform.position, stopChaseArea);
-    }
-
-    private void OnDisable()
-    {
-        if (areaDetectionPoint != null)
-        {
-            Destroy(areaDetectionPoint);
-        }
     }
 }

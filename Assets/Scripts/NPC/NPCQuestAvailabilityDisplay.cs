@@ -39,7 +39,7 @@ public class NPCQuestAvailabilityDisplay : MonoBehaviour
         }
         image.enabled = true;
 
-        if(e.questsAvailable.Count > 0)
+        if (e.questsAvailable.Count > 0)
         {
             image.sprite = availableQuestMark;
         }else if(e.questsCompleted.Count > 0)
@@ -54,6 +54,4 @@ public class NPCQuestAvailabilityDisplay : MonoBehaviour
             image.enabled = false;
         }
     }
-
-
 }

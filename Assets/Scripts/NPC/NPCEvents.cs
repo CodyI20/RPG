@@ -40,3 +40,38 @@ public struct NPCExitInteractionOutOfRangeEvent : IEvent
     public Transform selection;
     public QuestGiver questGiver;
 }
+
+public struct NPCDeathEvent : IEvent
+{
+    public NPCStats npcStats;
+}
+
+public struct NPCEvadeFinishedEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCAttackEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCWalkEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCRunEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCIdleEvent : IEvent
+{
+    public GameObject npcObject;
+}
+
+public struct NPCEvasionEvent : IEvent
+{
+    public GameObject npcObject;
+}

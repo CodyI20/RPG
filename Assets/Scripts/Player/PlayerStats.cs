@@ -55,7 +55,7 @@ public class PlayerStats : Singleton<PlayerStats>
 
 
     //Test function for the animation events
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         if (currentHealth <= 0) return;
         currentHealth -= damage;
