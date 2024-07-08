@@ -101,9 +101,6 @@ public class DemoController : MonoBehaviour
 				StartCoroutine(stopAttack(1f));
 			}
 
-			// death
-			if (Input.GetKeyDown("m"))
-				StartCoroutine(selfdestruct());
 
             //Leave
             if (Input.GetKeyDown("l"))
@@ -160,25 +157,6 @@ public class DemoController : MonoBehaviour
 		isAttacking = false;
 	}
 
-    public IEnumerator selfdestruct()
-    {
-        animator.SetTrigger("isDead");
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        dead = true;
-
-        yield return new WaitForSeconds(3f);
-        while (true)
-        {
-            if (Input.anyKeyDown)
-            {
-                Application.LoadLevel(Application.loadedLevelName);
-                yield break;
-            }
-            else
-                yield return 0;
-
-        }
-    }
     public void setCharacter(int i)
 	{
 		currentChar += i;

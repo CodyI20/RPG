@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class QuestSoundManager : MonoBehaviour
+public class QuestSoundManager : SoundManager
 {
     [Header("Audio Clips")]
     [SerializeField] private AudioClip questTurnInSound;
@@ -9,7 +8,6 @@ public class QuestSoundManager : MonoBehaviour
     [SerializeField] private AudioClip questAcceptSound;
     [SerializeField] private AudioClip questPreviewExitSound;
     [SerializeField] private AudioClip questPreviewEnterSound;
-    AudioSource audioSource;
 
     //Event bus bindings
     EventBinding<QuestTurnedInEvent> questTurnedInBinding;
@@ -18,11 +16,6 @@ public class QuestSoundManager : MonoBehaviour
     EventBinding<QuestPreviewEvent> questPreviewBinding;
     EventBinding<QuestInProgressPreviewEvent> questInProgressPreviewBinding;
     EventBinding<QuestPreviewExitEvent> questPreviewExitBinding;
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void OnEnable()
     {
@@ -83,10 +76,5 @@ public class QuestSoundManager : MonoBehaviour
     private void HandleQuestPreviewExit(QuestPreviewExitEvent e)
     {
         PlayClip(questPreviewExitSound);
-    }
-
-    private void PlayClip(AudioClip clip)
-    {
-        audioSource.PlayOneShot(clip, audioSource.volume);
     }
 }

@@ -35,6 +35,7 @@ public class HealVFXTrigger : MonoBehaviour
     IEnumerator PlayerAfterTime()
     {
         yield return new WaitForSeconds(timeToWait);
+        EventBus<HealVFXEvent>.Raise(new HealVFXEvent());
         vfx.Play();
     }
 }

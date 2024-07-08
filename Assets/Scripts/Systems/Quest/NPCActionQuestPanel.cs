@@ -44,7 +44,7 @@ public class NPCActionQuestPanel : MonoBehaviour
         EventBus<QuestAbandonEvent>.Register(AbandonEvent);
         CompletedEvent = new EventBinding<QuestCompletedEvent>(HandleQuestComplete);
         EventBus<QuestCompletedEvent>.Register(CompletedEvent);
-        InProgressPreviewEvent = new EventBinding<QuestInProgressPreviewEvent>(HandleQuestInProgressPreview);
+        InProgressPreviewEvent = new EventBinding<QuestInProgressPreviewEvent>(Deselect);
         EventBus<QuestInProgressPreviewEvent>.Register(InProgressPreviewEvent);
     }
     private void OnDisable()
@@ -124,15 +124,7 @@ public class NPCActionQuestPanel : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log("NPCActionQuestPanel: Quest completed: " + e.questLogic.quest.questName);
 #endif
-        if (currentlyHandledQuest.quest.questHash == e.questLogic.quest.questHash)
-        {
-            completedQuests.Add(e.questLogic.quest);
-        }
-    }
-
-    private void HandleQuestInProgressPreview(QuestInProgressPreviewEvent e)
-    {
-        Deselect();
+        completedQuests.Add(e.questLogic.quest);
     }
 
     //Called by the UI Button
@@ -151,7 +143,8 @@ public class NPCActionQuestPanel : MonoBehaviour
 #endif
         EventBus<QuestTurnedInEvent>.Raise(new QuestTurnedInEvent() { questLogic = currentlyHandledQuest });
         questsAccepted.Remove(currentlyHandledQuest.quest);
-        gameObjectParentToEnable.SetActive(false);
+        NPCInProgressQuestsPanel.SetActive(false);
+        QuestPanel.SetActive(true);
     }
 
     private void Update()

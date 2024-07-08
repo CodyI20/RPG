@@ -13,10 +13,6 @@ public struct QuestCompletedEvent : IEvent
     public QuestLogic questLogic;
 }
 
-public struct OutOfRangeQuestGrabEvent : IEvent
-{
-}
-
 public struct QuestPreviewEvent : IEvent
 {
     public QuestLogic questLogic;

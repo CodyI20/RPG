@@ -1,9 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class QuestGiver : MonoBehaviour
 {
+    // In the future make it so that <quests> holds all of the quests from this specific quest giver;
+    // <availableQuestsList> holds all of the quests that the player is currently eligible for;
+    // Instead of adding them all in Awake, create logic for eligibility checking and add them to <availableQuestsList> accordingly;
+
     [SerializeField] List<QuestLogic> quests;
     private List<QuestLogic> availableQuestsList = new List<QuestLogic>();
     private List<QuestLogic> inProgressQuestsList = new List<QuestLogic>();
@@ -12,6 +15,13 @@ public class QuestGiver : MonoBehaviour
     private void Awake()
     {
         availableQuestsList.AddRange(quests);
+        EventBus<NPCQuestAvailabilityEvent>.Raise(new NPCQuestAvailabilityEvent
+        {
+            questGiver = this,
+            questsAvailable = availableQuestsList,
+            questsCompleted = finishedQuestsList,
+            questsInProgress = inProgressQuestsList
+        });
     }
 
     [Header("Quest Giver Settings")]
@@ -39,6 +49,7 @@ public class QuestGiver : MonoBehaviour
         QuestTurnedInEventBinding = new EventBinding<QuestTurnedInEvent>(HandleQuestTurnedIn);
         EventBus<QuestTurnedInEvent>.Register(QuestTurnedInEventBinding);
         ObjectSelector.OnSelection += HandleSelection;
+        ObjectSelector.OnDeselection += HandleDeselection;
     }
     private void OnDisable()
     {
@@ -47,12 +58,20 @@ public class QuestGiver : MonoBehaviour
         EventBus<QuestCompletedEvent>.Deregister(QuestCompletedEventBinding);
         EventBus<QuestTurnedInEvent>.Deregister(QuestTurnedInEventBinding);
         ObjectSelector.OnSelection -= HandleSelection;
+        ObjectSelector.OnDeselection -= HandleDeselection;
     }
 
     private void HandleQuestAccepted(QuestAcceptedEvent e)
     {
         availableQuestsList.Remove(e.questLogic);
         inProgressQuestsList.Add(e.questLogic);
+        EventBus<NPCQuestAvailabilityEvent>.Raise(new NPCQuestAvailabilityEvent
+        {
+            questGiver = this,
+            questsAvailable = availableQuestsList,
+            questsCompleted = finishedQuestsList,
+            questsInProgress = inProgressQuestsList
+        });
     }
 
     private void HandleQuestAbandoned(QuestAbandonEvent e)
@@ -62,6 +81,13 @@ public class QuestGiver : MonoBehaviour
 #endif
         availableQuestsList.Add(e.questLogic);
         inProgressQuestsList.Remove(e.questLogic);
+        EventBus<NPCQuestAvailabilityEvent>.Raise(new NPCQuestAvailabilityEvent
+        {
+            questGiver = this,
+            questsAvailable = availableQuestsList,
+            questsCompleted = finishedQuestsList,
+            questsInProgress = inProgressQuestsList
+        });
     }
 
     private void HandleQuestCompleted(QuestCompletedEvent e)
@@ -71,6 +97,13 @@ public class QuestGiver : MonoBehaviour
 #endif
         finishedQuestsList.Add(e.questLogic.quest);
         inProgressQuestsList.Remove(e.questLogic);
+        EventBus<NPCQuestAvailabilityEvent>.Raise(new NPCQuestAvailabilityEvent
+        {
+            questGiver = this,
+            questsAvailable = availableQuestsList,
+            questsCompleted = finishedQuestsList,
+            questsInProgress = inProgressQuestsList
+        });
     }
 
     private void HandleSelection(Transform selector, Transform selection)
@@ -82,24 +115,39 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log("Quest giver selected and in range!");
 #endif
-                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent { 
-                    selector = selector, 
-                    selection = selection, 
-                    questGiver = this, 
-                    questsCount = availableQuestsList.Count + finishedQuestsList.Count + inProgressQuestsList.Count, 
+                EventBus<NPCInteractInRangeEvent>.Raise(new NPCInteractInRangeEvent
+                {
+                    selector = selector,
+                    selection = selection,
+                    questGiver = this,
+                    questsCount = availableQuestsList.Count + finishedQuestsList.Count + inProgressQuestsList.Count,
                     questsAvailable = availableQuestsList,
                     questsCompleted = finishedQuestsList,
-                    questsInProgress = inProgressQuestsList
+                    questsInProgress = inProgressQuestsList,
+                    interactionRadius = questGiverInteractionRadius
                 });
             }
             else
             {
 #if UNITY_EDITOR
-                EventBus<OutOfRangeQuestGrabEvent>.Raise(new OutOfRangeQuestGrabEvent());
+                EventBus<NPCInteractOutOfRangeEvent>.Raise(new NPCInteractOutOfRangeEvent()
+                {
+                    questGiver = this,
+                    interactionRadius = questGiverInteractionRadius,
+                    selection = selection,
+                    selector = selector
+                });
                 Debug.Log("Quest giver selected but out of range!");
 #endif
             }
         }
+    }
+
+    private void HandleDeselection(Transform selector, Transform deselection)
+    {
+#if UNITY_EDITOR
+        Debug.Log("Deselected: " + deselection.name);
+#endif
     }
 
     private void HandleQuestTurnedIn(QuestTurnedInEvent e)
@@ -110,6 +158,13 @@ public class QuestGiver : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log($"Quests left: {quests.Count}; finishedQuests: {finishedQuestsList.Count}; inProgressQuests: {inProgressQuestsList.Count}; availableQuests: {availableQuestsList.Count}");
 #endif
+        EventBus<NPCQuestAvailabilityEvent>.Raise(new NPCQuestAvailabilityEvent
+        {
+            questGiver = this,
+            questsAvailable = availableQuestsList,
+            questsCompleted = finishedQuestsList,
+            questsInProgress = inProgressQuestsList
+        });
     }
 
     private void OnDrawGizmosSelected()

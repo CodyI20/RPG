@@ -16,3 +16,6 @@ public struct HealEvent : IEvent
 {
     public float amount;
 }
+public struct HealVFXEvent : IEvent
+{
+}

@@ -15,6 +15,10 @@ public class NPCInteractionManager : MonoBehaviour
     private Coroutine rotationCoroutine;
     private bool isSelected = false;
 
+    EventBinding<NPCInteractInRangeEvent> InteractInRangeEventBinding;
+    EventBinding<NPCExitInteractionOutOfRangeEvent> ExitInteractOutOfRangeBinding;
+    EventBinding<NPCInteractOutOfRangeEvent> InteractOutOfRangeEventBinding;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -28,24 +32,31 @@ public class NPCInteractionManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ObjectSelector.OnSelection += HandleSelection;
-        ObjectSelector.OnDeselection += HandleDeselection;
+        InteractInRangeEventBinding = new EventBinding<NPCInteractInRangeEvent>(HandleSelectionInRange);
+        EventBus<NPCInteractInRangeEvent>.Register(InteractInRangeEventBinding);
+        InteractOutOfRangeEventBinding = new EventBinding<NPCInteractOutOfRangeEvent>(HandleSelectionOutOfRange);
+        EventBus<NPCInteractOutOfRangeEvent>.Register(InteractOutOfRangeEventBinding);
+        ExitInteractOutOfRangeBinding = new EventBinding<NPCExitInteractionOutOfRangeEvent>(HandleDeselectionOutOfRange);
+        EventBus<NPCExitInteractionOutOfRangeEvent>.Register(ExitInteractOutOfRangeBinding);
+        ObjectSelector.OnDeselection += HandleDeselectionInRange;
     }
 
     private void OnDisable()
     {
-        ObjectSelector.OnSelection -= HandleSelection;
-        ObjectSelector.OnDeselection -= HandleDeselection;
+        EventBus<NPCInteractInRangeEvent>.Deregister(InteractInRangeEventBinding);
+        EventBus<NPCInteractOutOfRangeEvent>.Deregister(InteractOutOfRangeEventBinding);
+        EventBus<NPCExitInteractionOutOfRangeEvent>.Deregister(ExitInteractOutOfRangeBinding);
+        ObjectSelector.OnDeselection -= HandleDeselectionInRange;
     }
 
-    private void HandleDeselection(Transform selector, Transform deselection)
+    private void HandleDeselectionInRange(Transform selector, Transform deselection)
     {
 #if UNITY_EDITOR
         Debug.Log("Deselected: " + deselection.name);
 #endif
-        isSelected = false;
         if (deselection == transform)
         {
+            isSelected = false;
             //SOUND
             PlayRandomAudioClip(farewellAudioClips);
             //ROTATION
@@ -53,19 +64,37 @@ public class NPCInteractionManager : MonoBehaviour
         }
     }
 
-    private void HandleSelection(Transform selector, Transform selection)
+    private void HandleDeselectionOutOfRange(NPCExitInteractionOutOfRangeEvent e)
     {
 #if UNITY_EDITOR
-        Debug.Log("Selected: " + selection.name);
+        Debug.Log("Deselected: " + e.selection.name + "but out of range!");
 #endif
-        isSelected = true;
-        if (selection == transform)
+        if (e.selection == transform)
+            isSelected = false;
+    }
+
+    private void HandleSelectionInRange(NPCInteractInRangeEvent e)
+    {
+#if UNITY_EDITOR
+        Debug.Log("Selected: " + e.selection.name);
+#endif
+        if (e.selection == transform)
         {
+            isSelected = true;
             //SOUND
             PlayRandomAudioClip(greetingsAudioClips);
             //ROTATION
-            HandleCoroutine(ConstantlyRotateTowards(selector));
+            HandleCoroutine(ConstantlyRotateTowards(e.selector));
         }
+    }
+
+    private void HandleSelectionOutOfRange(NPCInteractOutOfRangeEvent e)
+    {
+#if UNITY_EDITOR
+        Debug.Log("Selected: " + e.selection.name + " but out of range!");
+#endif
+        if (e.selection == transform)
+            isSelected = true;
     }
     #region SOUND
 
