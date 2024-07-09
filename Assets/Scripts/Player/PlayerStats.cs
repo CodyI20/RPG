@@ -8,6 +8,7 @@ public class PlayerStats : Singleton<PlayerStats>
     public event System.Action OnDamageTaken;
     public event System.Action OnPlayerHealed;
     public event System.Action OnPlayerDeath;
+    public event System.Action<float> OnPlayerHealthChanged;
 
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
@@ -63,10 +64,17 @@ public class PlayerStats : Singleton<PlayerStats>
         Debug.Log("Player took " + damage + " damage. Current health: " + currentHealth);
 #endif
         OnDamageTaken?.Invoke();
-        if(currentHealth <= 0)
+        HealthPercentageEventRaise();
+        if (currentHealth <= 0)
         {
             Die(damage);
         }
+    }
+
+    private void HealthPercentageEventRaise()
+    {
+        float healthPercentageLeft = (float)currentHealth / maxHealth;
+        OnPlayerHealthChanged?.Invoke(healthPercentageLeft);
     }
 
     private void Heal(int amount)
@@ -77,6 +85,7 @@ public class PlayerStats : Singleton<PlayerStats>
         {
             currentHealth = maxHealth;
         }
+        HealthPercentageEventRaise();
 #if UNITY_EDITOR
         Debug.Log($"Healing the player for: {amount}; The new health value is: {currentHealth}");
 #endif

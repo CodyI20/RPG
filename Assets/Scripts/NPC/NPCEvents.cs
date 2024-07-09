@@ -80,3 +80,9 @@ public struct NPCTriggerCombatEvent : IEvent
 {
     public GameObject npcObject;
 }
+
+public struct NPCHealthChangeEvent : IEvent
+{
+    public GameObject npcObject;
+    public float currentHealthPercentage;
+}

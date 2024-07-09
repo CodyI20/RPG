@@ -17,7 +17,9 @@ public class Quest : ScriptableObject
     private void OnValidate()
     {
         questName = this.name;
+#if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
+#endif
         questHash = questName.GetHashCode();
     }
 }
