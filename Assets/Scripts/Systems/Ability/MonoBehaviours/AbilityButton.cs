@@ -52,6 +52,13 @@ public class AbilityButton : MonoBehaviour
             hotkeyDisplay.text = key.ToString();
     }
 
+    public void UpdateTooltip(string titleText, string descriptionText)
+    {
+        var tooltip = GetComponent<AbilityTooltipShow>();
+        tooltip.TitleText.text = titleText;
+        tooltip.DescriptionText.text = descriptionText;
+    }
+
     public void UpdateButtonSprite(Sprite newIcon)
     {
         abilityIcon.sprite = newIcon;

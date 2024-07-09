@@ -10,6 +10,7 @@ TagManager:
   - cockpit_capitalLaser
   - Outlineable
   - HostileNPC
+  - HawkHostileNPC
   layers:
   - Default
   - TransparentFX

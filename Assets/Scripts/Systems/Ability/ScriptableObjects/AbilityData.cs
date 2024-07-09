@@ -9,6 +9,7 @@ public class AbilityData : ScriptableObject
     public float cooldown;
     public Sprite icon;
     public string fullName;
+    public string tooltipDescription;
 
 
     void OnValidate()

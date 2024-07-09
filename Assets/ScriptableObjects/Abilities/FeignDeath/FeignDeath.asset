@@ -18,3 +18,4 @@ MonoBehaviour:
   cooldown: 3
   icon: {fileID: 21300000, guid: 936c8da717a86df4b85f3e9c03ec44a3, type: 3}
   fullName: FeignDeath
+  tooltipDescription: Pretend you are dead and make enemies ignore you

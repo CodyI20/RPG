@@ -18,3 +18,5 @@ MonoBehaviour:
   cooldown: 4
   icon: {fileID: 21300000, guid: fe4e3e282bf1f86409a8b3cdf2b2dd87, type: 3}
   fullName: SpiritWolf
+  tooltipDescription: Summon a spirit wolf that charges forward and damages any enemy
+    it passes through.

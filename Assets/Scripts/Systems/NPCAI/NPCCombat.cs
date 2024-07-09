@@ -14,12 +14,25 @@ public class NPCCombat : MonoBehaviour
     NPCPathing _npcPathing;
     NPCStats _npcStats;
 
+    private bool playerIsDead = false;
+
     private void Awake()
     {
         _npcPathing = GetComponent<NPCPathing>();
         _attackRange = _npcPathing.StoppingDistance;
         _npcStats = GetComponent<NPCStats>();
         attackRateSave = _attackRate;
+        playerIsDead = false;
+    }
+
+    private void OnEnable()
+    {
+        PlayerStats.Instance.OnPlayerDeath += () => playerIsDead = true;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerStats.Instance.OnPlayerDeath -= () => playerIsDead = true;
     }
 
     private void Start()
@@ -29,7 +42,7 @@ public class NPCCombat : MonoBehaviour
 
     private void Update()
     {
-        if (_npcStats.IsDead) return;
+        if (_npcStats.IsDead || playerIsDead) return;
         TryAttackPlayer();
     }
 

@@ -29,7 +29,7 @@ public class AbilityController
         {
             view.buttons[i].RegisterListener(OnAbilityButtonPressed);
         }
-        view.UpdateButtonSprites(model.abilities);
+        view.UpdateButtonDetails(model.abilities);
     }
 
     public void Update(float deltaTime)
@@ -45,7 +45,7 @@ public class AbilityController
         }
     }
 
-    void UpdateButtons(IList<Ability> updatedAbilities) => view.UpdateButtonSprites(updatedAbilities);
+    void UpdateButtons(IList<Ability> updatedAbilities) => view.UpdateButtonDetails(updatedAbilities);
 
     void OnAbilityButtonPressed(int index)
     {

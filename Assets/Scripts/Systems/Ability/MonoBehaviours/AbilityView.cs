@@ -34,13 +34,14 @@ public class AbilityView : MonoBehaviour
         Array.ForEach(buttons, button => button.UpdateRadialFill(progress));
     }
 
-    public void UpdateButtonSprites(IList<Ability> abilities)
+    public void UpdateButtonDetails(IList<Ability> abilities)
     {
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i < abilities.Count)
             {
                 buttons[i].UpdateButtonSprite(abilities[i].data.icon);
+                buttons[i].UpdateTooltip(abilities[i].data.fullName, abilities[i].data.tooltipDescription);
             }
             else
             {

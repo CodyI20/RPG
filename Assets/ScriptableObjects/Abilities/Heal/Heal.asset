@@ -18,3 +18,4 @@ MonoBehaviour:
   cooldown: 2
   icon: {fileID: 21300000, guid: 29a79c726ee819c4a9ec204bca7713c4, type: 3}
   fullName: Heal
+  tooltipDescription: A revitalizing spell that heals the caster for a small amount.

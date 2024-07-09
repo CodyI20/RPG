@@ -132,7 +132,8 @@ public class NPCPathing : MonoBehaviour
 
         if (playerDead)
         {
-            ReturnToInitialPosition();
+            if (playerInRange)
+                ReturnToInitialPosition();
             return;
         }
 
@@ -141,7 +142,7 @@ public class NPCPathing : MonoBehaviour
             FollowPlayer();
         }
 
-        if (PlayerGotInRange())
+        if (PlayerGotInRange() && hostilityType == NPCHostilityType.Aggressive)
         {
             if (!playerInRange)
             {
