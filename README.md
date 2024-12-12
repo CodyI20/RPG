@@ -1,8 +1,13 @@
 # RPG
 This repo contains an RPG game demo made in Unity
 
+# SCREENSHOTS
 
+The game view - Showcasing the features present such as the quest manager, player stats (health in this case) and abilities
+![RPG-GameView](https://github.com/user-attachments/assets/a6e6468a-fc0b-48f0-aadd-068ae3f13867)
 
+The editor view - Showcasing the NavMesh for the AI agents, scene setup and the hierarchy
+![RPG-EditorView](https://github.com/user-attachments/assets/1a00aa2a-1208-4225-a7cc-4ee5da6f8693)
 
 
 # **Credits**
