@@ -1,13 +1,31 @@
-# RPG
-This repo contains an RPG game demo made in Unity
+# Overview
+This repo contains an RPG game vertical slice demo made in Unity. The main purpose of this portfolio item is to both challenge me and also show my passion towards this game genre. It took around two weeks to create thanks to the GitHub Projects scrum board, which helped me stay organized and be on track. This project was heavily inspired by World of Warcraft. 
 
-# SCREENSHOTS
+The main features are:
+
+- The third person RPG-style camera which is a recreation of the World of Warcraft camera. This features has been polished over the course of the project, with consistent iterations
+- An RPG-like quest system
+- An NPC system which includes both hostile and friendly behaviors
+- An action bar and ability system
+
+The application has been created keeping good software development practices in mind, such as scalability, modularity, robustibility, replicability and many more. It's been achieved with the use of programming patterns ( Strategy, Observer, Event Bus, Singleton, etc.) as well as Unity's scriptable objects and editor scripting.
+
+# Showcase
 
 The game view - Showcasing the features present such as the quest manager, player stats (health in this case) and abilities
 ![RPG-GameView](https://github.com/user-attachments/assets/a6e6468a-fc0b-48f0-aadd-068ae3f13867)
 
 The editor view - Showcasing the NavMesh for the AI agents, scene setup and the hierarchy
 ![RPG-EditorView](https://github.com/user-attachments/assets/1a00aa2a-1208-4225-a7cc-4ee5da6f8693)
+
+|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|
+
+
+Here you can find a gameplay walkthrough video of the final product:
+[RPG Vertical Slice Demo](https://www.youtube.com/watch?v=VnFf4opEtRI)
+
+
+|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|
 
 
 # **Credits**
