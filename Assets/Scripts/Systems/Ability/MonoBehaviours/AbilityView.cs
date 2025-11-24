@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,18 +20,27 @@ public class AbilityView : MonoBehaviour
             }
             if (buttons[i].key == Key.None)
                 buttons[i].Initialize(i, keys[i]);
-
-            UpdateRadial(0);
         }
     }
 
-    public void UpdateRadial(float progress)
+    public void UpdateRadial(IList<Ability> abilities)
     {
-        if (float.IsNaN(progress))
+        for (int i = 0; i < buttons.Length; i++)
         {
-            progress = 0;
+            if (i < abilities.Count)
+            {
+                var progress = abilities[i].CooldownTimer.Progress;
+                if (float.IsNaN(progress))
+                {
+                    progress = 0;
+                }
+                buttons[i].UpdateRadialFill(progress);
+            }
+            else
+            {
+                buttons[i].UpdateRadialFill(0);
+            }
         }
-        Array.ForEach(buttons, button => button.UpdateRadialFill(progress));
     }
 
     public void UpdateButtonDetails(IList<Ability> abilities)

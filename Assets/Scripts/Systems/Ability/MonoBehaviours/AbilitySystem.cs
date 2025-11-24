@@ -4,6 +4,7 @@ public class AbilitySystem : MonoBehaviour
 {
     [SerializeField] AbilityView view;
     [SerializeField] AbilityData[] startingAbilities;
+    [SerializeField] float globalCooldown = 1.0f;
     AbilityController controller;
 
     bool isPlayerDead = false;
@@ -12,6 +13,7 @@ public class AbilitySystem : MonoBehaviour
     {
         controller = new AbilityController.Builder()
             .WithAbilities(startingAbilities)
+            .WithGlobalCooldown(globalCooldown)
             .Build(view);
     }
 

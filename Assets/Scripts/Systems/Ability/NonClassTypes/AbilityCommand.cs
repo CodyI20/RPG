@@ -1,7 +1,7 @@
 ﻿public class AbilityCommand : ICommand
 {
-    private readonly AbilityData data;
-    public float duration => data.cooldown;
+    public readonly AbilityData data;
+    public float duration => data.castTime;
 
     public AbilityCommand(AbilityData data)
     {
